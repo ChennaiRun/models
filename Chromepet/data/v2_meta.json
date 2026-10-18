@@ -1,0 +1,63 @@
+{
+ "spawn_enu": [
+  -70.91,
+  -253.28
+ ],
+ "spawn_gltf": [
+  -70.91,
+  0.2,
+  253.28
+ ],
+ "gate_heading_deg_from_north_cw": 34.3,
+ "main_gate_osm_node": 432468247,
+ "campus_area_m2": 168644,
+ "campus_buildings": 60,
+ "outside_buildings": 8732,
+ "trees": 2510,
+ "assigned_styles": {
+  "DCOE Office": "green3",
+  "Lecture Hall Complex": "lhc",
+  "Department of Aeronautical Engineering": "aero",
+  "Micsat Clean Room": "white2",
+  "Rajam Hall": "rajam",
+  "Mechatronics": "green3",
+  "Department of Production Technology": "auto",
+  "Department of Automobile Engineering": "auto",
+  "Golden Jubliee Hall": "library",
+  "AU-KBC Research Centre": "cs",
+  "RLHC (Rajam Lecture Hall Complex)": "lhc",
+  "Admin Block & Dean Office": "admin",
+  "Amaravathi Hostel": "hostel",
+  "Bhavani Hostel": "hostel",
+  "Tamirabharani Hostel": "hostel",
+  "Rajam Hostel": "hostel",
+  "Old Non-Veg Mess & NRI Hostel": "hostel",
+  "Birla Hostel": "hostel",
+  "Alumini House": "white2",
+  "Hangar I (approx)": "hangar1",
+  "Hangar II / Exam Hall (approx)": "hangar2",
+  "Computer Technology (approx)": "cs",
+  "Rubber & Plastics Technology (approx)": "rpt",
+  "Library (approx)": "library",
+  "Applied Sciences (approx)": "applied",
+  "Charles Babbage Block (approx)": "babbage",
+  "Information Technology (approx)": "green3",
+  "Electronics & Instrumentation (approx)": "green3",
+  "Indian Bank ATM (approx)": "atm"
+ },
+ "no_footprint_procedural": [
+  "DCOE Office",
+  "Lecture Hall Complex",
+  "Department of Production Technology",
+  "RLHC (Rajam Lecture Hall Complex)",
+  "Admin Block & Dean Office"
+ ],
+ "aircraft_grove_enu": [
+  142.6,
+  -10.2
+ ],
+ "fountain_enu": [
+  -28.2,
+  -163.9
+ ]
+}
