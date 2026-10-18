@@ -1,60 +1,118 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// Menu: Chrompet > Build MIT Campus Scene
-/// Imports the generated OBJ meshes (Assets/Models/Chrompet), adds MeshColliders, a ground BoxCollider,
-/// a capsule-placeholder player with PlayerController at the MIT main-entrance spawn point, and saves the scene.
+/// 1. Syncs per-area GLBs into Assets/Models/Chrompet (ChromepetSync).
+/// 2. Instantiates ground / roads / campus + outside buildings / landmarks / trees, marks them static,
+///    adds MeshColliders to every mesh (simple extruded geometry; tree meshes get NO mesh collider).
+/// 3. Adds CapsuleColliders on tree trunks from trees_colliders.json.
+/// 4. Places an on-foot Player (capsule placeholder) at "Spawn_MainGate" on the campus avenue just inside the
+///    Main Gate (OSM node 432468247, MIT Road right after the MIT Flyover), facing into campus.
+/// Orientation: GLBs are standard glTF (+Y up, right-handed; x=east, z=-north). The spawn and tree colliders are
+/// derived from marker geometry inside the imported GLB, so they stay consistent whatever axis conversion the importer uses.
 public static class ChrompetSceneBuilder
 {
-    const string ModelDir = "Assets/Models/Chrompet/";
-    // Local metres (X east, Z north) relative to origin 12.9487N, 80.1394E (approx MIT main gate on MIT Road).
-    // Spawn = OSM-tagged MIT south gate; North Gate is node 249211141 (12.95160N 80.14132E) ~ (204, 0, 321).
-    public static Vector3 SpawnPoint = new Vector3(-77.6f, 1.2f, -258f); // ~5 m inside "MIT South Gaate" (OSM node 432468247, 12.94634N 80.13868E)
+    const string Dir = ChromepetSync.Dst;
+
+    [System.Serializable] class Tree { public float x, y, z, r, h; public string kind; }
+    [System.Serializable] class TreeFile { public string frame; public Tree[] trees; }
 
     [MenuItem("Chrompet/Build MIT Campus Scene")]
     public static void Build()
     {
         ChromepetSync.Sync();
         var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
-        Object.DestroyImmediate(Camera.main.gameObject); // player brings its own camera
+        if (Camera.main) Object.DestroyImmediate(Camera.main.gameObject); // player brings its own camera
 
-        var world = new GameObject("Chrompet_World");
-        foreach (var name in new[] { "ground", "roads", "buildings" })
+        var world = new GameObject("Chromepet_World");
+        GameObject landmarks = null;
+        foreach (var g in ChromepetSync.Glbs)
         {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(ModelDir + name + ".obj");
-            if (!prefab) { Debug.LogError("Missing " + ModelDir + name + ".obj - run tools/osm_to_mesh.py"); continue; }
+            var file = Path.GetFileName(g);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(Dir + file);
+            if (!prefab) { Debug.LogError("Missing/unimported " + Dir + file + " (is glTFast installed?)"); continue; }
             var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, world.transform);
-            go.name = name; go.isStatic = true;
+            go.name = Path.GetFileNameWithoutExtension(file);
+            foreach (var t in go.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
+            if (file == "landmarks.glb") landmarks = go;
+            if (file == "trees.glb") continue; // trees: capsule colliders only
             foreach (var mf in go.GetComponentsInChildren<MeshFilter>())
             {
-                if (name == "ground") { mf.gameObject.AddComponent<BoxCollider>(); continue; }
+                if (mf.name.StartsWith("Spawn")) continue;
                 var mc = mf.gameObject.AddComponent<MeshCollider>(); mc.sharedMesh = mf.sharedMesh;
             }
         }
 
-        // Player
+        // Spawn markers: tiny meshes baked at the spawn / look-at points (vertex data, so use renderer bounds).
+        Vector3 spawn = new Vector3(0, 0.2f, 0), look = Vector3.forward * 10;
+        Transform spawnT = landmarks ? FindDeep(landmarks.transform, "Spawn_MainGate") : null;
+        Transform lookT = landmarks ? FindDeep(landmarks.transform, "SpawnLook") : null;
+        if (spawnT) { spawn = spawnT.GetComponentInChildren<Renderer>().bounds.center; spawnT.GetComponentInChildren<Renderer>().enabled = false; }
+        else Debug.LogWarning("Spawn_MainGate marker not found; using origin.");
+        if (lookT) { look = lookT.GetComponentInChildren<Renderer>().bounds.center; lookT.GetComponentInChildren<Renderer>().enabled = false; }
+
+        // Tree trunk capsules. JSON is in glTF frame; detect the importer's axis signs from the spawn marker.
+        var metaPath = Dir + "v2_meta.json"; float sx = 1, sz = 1;
+        if (File.Exists(metaPath) && spawnT)
+        {
+            var meta = JsonUtility.FromJson<Meta>(File.ReadAllText(metaPath));
+            if (meta.spawn_gltf != null && meta.spawn_gltf.Length == 3)
+            {
+                sx = Mathf.Sign(spawn.x) == Mathf.Sign(meta.spawn_gltf[0]) ? 1 : -1;
+                sz = Mathf.Sign(spawn.z) == Mathf.Sign(meta.spawn_gltf[2]) ? 1 : -1;
+            }
+        }
+        var treeJson = Dir + "trees_colliders.json";
+        if (File.Exists(treeJson))
+        {
+            var tf = JsonUtility.FromJson<TreeFile>(File.ReadAllText(treeJson));
+            var root = new GameObject("TreeColliders"); root.transform.SetParent(world.transform); root.isStatic = true;
+            foreach (var t in tf.trees)
+            {
+                var go = new GameObject("Trunk_" + t.kind); go.isStatic = true; go.transform.SetParent(root.transform);
+                go.transform.position = new Vector3(t.x * sx, 0, t.z * sz);
+                var cc = go.AddComponent<CapsuleCollider>(); cc.radius = Mathf.Max(0.15f, t.r); cc.height = t.h; cc.center = new Vector3(0, t.h / 2, 0);
+            }
+        }
+
+        // Sun
+        var sun = new GameObject("Sun", typeof(Light)); var l = sun.GetComponent<Light>(); l.type = LightType.Directional; l.shadows = LightShadows.Soft;
+        sun.transform.rotation = Quaternion.Euler(50, 140, 0);
+
+        // Player (on foot only)
         var player = new GameObject("Player");
-        player.transform.position = SpawnPoint;
-        var cc = player.AddComponent<CharacterController>();
-        cc.height = 1.8f; cc.radius = 0.3f; cc.center = new Vector3(0, 0.9f, 0); cc.stepOffset = 0.35f;
+        player.transform.position = spawn + Vector3.up * 0.1f;
+        var dir = look - spawn; dir.y = 0; if (dir.sqrMagnitude > 0.01f) player.transform.rotation = Quaternion.LookRotation(dir);
+        var ccon = player.AddComponent<CharacterController>();
+        ccon.height = 1.8f; ccon.radius = 0.3f; ccon.center = new Vector3(0, 0.9f, 0); ccon.stepOffset = 0.35f;
         var body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         body.name = "Body_Placeholder"; Object.DestroyImmediate(body.GetComponent<Collider>());
         body.transform.SetParent(player.transform, false); body.transform.localPosition = new Vector3(0, 0.9f, 0);
         var pivot = new GameObject("CameraPivot").transform; pivot.SetParent(player.transform, false);
         pivot.localPosition = new Vector3(0, 1.65f, 0);
         var camGo = new GameObject("PlayerCamera", typeof(Camera), typeof(AudioListener)); camGo.tag = "MainCamera";
-        camGo.transform.SetParent(pivot, false); camGo.GetComponent<Camera>().nearClipPlane = 0.05f;
+        camGo.transform.SetParent(pivot, false); var cam = camGo.GetComponent<Camera>(); cam.nearClipPlane = 0.05f; cam.farClipPlane = 4000f;
         var pc = player.AddComponent<PlayerController>();
-        pc.cameraPivot = pivot; pc.cam = camGo.GetComponent<Camera>();
-        pc.bodyRenderers = new[] { body.GetComponent<Renderer>() };
+        pc.cameraPivot = pivot; pc.cam = cam; pc.bodyRenderers = new[] { body.GetComponent<Renderer>() };
         var anim = player.AddComponent<PlayerAnimator>(); anim.player = pc;
-        new GameObject("SpawnPoint_MIT_MainEntrance").transform.position = SpawnPoint;
+        var sp = new GameObject("SpawnPoint_MIT_MainGate"); sp.transform.SetPositionAndRotation(player.transform.position, player.transform.rotation);
 
-        System.IO.Directory.CreateDirectory("Assets/Scenes");
+        Directory.CreateDirectory("Assets/Scenes");
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/MIT_Chrompet.unity");
         MixamoSetup.TrySwapAvatar(player); // no-op until Mixamo FBX files exist
+        Debug.Log($"MIT Chromepet scene built. Spawn {spawn}, axis signs x{sx} z{sz}.");
+    }
+
+    [System.Serializable] class Meta { public float[] spawn_gltf; }
+
+    static Transform FindDeep(Transform t, string prefix)
+    {
+        if (t.name.StartsWith(prefix)) return t;
+        foreach (Transform c in t) { var r = FindDeep(c, prefix); if (r) return r; }
+        return null;
     }
 }
 #endif
