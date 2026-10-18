@@ -40,4 +40,4 @@ Drop each user-generated 3D output in `Chromepet/incoming/<video-id>/` (preferre
 | 2026-10-18 | 7ukD24Afw44, Lxfu7Ca0t1g, Lnbh9o4DO_w, 9puuqORQ9jA, UiqrwMtWw90 | ground/ground_v2.glb, props/landmarks.glb, props/trees.glb | a360d9b | Paving, landmarks, trees |
 | 2026-10-18 | pU7IlCqgIkU, QKCAmu_7zfg, yWtKV24QGR4, J_mGzeckHCw, qhQ7aS-qETw | roads/roads_v2.glb | dabaf4a | GST Road, flyover, overbridge, station, railway, subway |
 | 2026-10-18 | QKCAmu_7zfg, 7ukD24Afw44, Lnbh9o4DO_w | unity/Assets/Scripts/Editor/*.cs | 5fdb94d | Spawn inside Main Gate, GLB import + colliders |
-| 2026-10-18 | CT photos 1-2 | buildings/detailed/ct_charles_babbage.glb | (this commit) | Detailed Charles Babbage Block (bpy), Unity imports detailed buildings + hides procedural box |
+| 2026-10-18 | CT photos 1-2 | buildings/detailed/ct_charles_babbage.glb | 8d12e9c | Detailed Charles Babbage Block (bpy), Unity imports detailed buildings + hides procedural box |
