@@ -46,6 +46,30 @@ public static class ChrompetSceneBuilder
             }
         }
 
+        // Detailed hand/bpy-modelled buildings (Chromepet/buildings/detailed/*.glb). Each replaces a procedural box:
+        // nodes named COL_* become invisible MeshColliders, visual meshes get no collider, and the procedural
+        // building whose node name starts with the mapped prefix is disabled.
+        var replaces = new System.Collections.Generic.Dictionary<string, string> {
+            { "ct_charles_babbage", "Charles_Babbage_Block" } };
+        var detRoot = new GameObject("Detailed_Buildings"); detRoot.transform.SetParent(world.transform);
+        foreach (var path in Directory.Exists(Dir + "detailed") ? Directory.GetFiles(Dir + "detailed", "*.glb") : new string[0])
+        {
+            var p = AssetDatabase.LoadAssetAtPath<GameObject>(path.Replace('\\', '/'));
+            if (!p) continue;
+            var go = (GameObject)PrefabUtility.InstantiatePrefab(p, detRoot.transform);
+            go.name = Path.GetFileNameWithoutExtension(path);
+            foreach (var t in go.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
+            foreach (var mf in go.GetComponentsInChildren<MeshFilter>())
+            {
+                if (!mf.name.StartsWith("COL_")) continue;
+                var mc = mf.gameObject.AddComponent<MeshCollider>(); mc.sharedMesh = mf.sharedMesh;
+                var r = mf.GetComponent<Renderer>(); if (r) r.enabled = false;
+            }
+            if (replaces.TryGetValue(go.name, out var prefix))
+                foreach (var t in world.GetComponentsInChildren<Transform>(true))
+                    if (t.name.StartsWith(prefix) && !t.IsChildOf(detRoot.transform)) t.gameObject.SetActive(false);
+        }
+
         // Spawn markers: tiny meshes baked at the spawn / look-at points (vertex data, so use renderer bounds).
         Vector3 spawn = new Vector3(0, 0.2f, 0), look = Vector3.forward * 10;
         Transform spawnT = landmarks ? FindDeep(landmarks.transform, "Spawn_MainGate") : null;

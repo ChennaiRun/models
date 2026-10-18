@@ -24,6 +24,13 @@ Drop each user-generated 3D output in `Chromepet/incoming/<video-id>/` (preferre
 | [J_mGzeckHCw](https://www.youtube.com/watch?v=J_mGzeckHCw) | Radha Nagar subway night drive | pending | Informed the procedural v2 model (Radha Nagar subway, 3.0 m height bar) |
 | [qhQ7aS-qETw](https://www.youtube.com/watch?v=qhQ7aS-qETw) | Chromepet drone shots | pending | Informed the procedural v2 model (outside building heights/colours, trees) |
 
+## Photo references (user-provided)
+
+| Photo | What it shows | Status | Notes |
+|-------|---------------|--------|-------|
+| CT photo 1 (2026-10-18, chat attachment 01M5857J7HR5C543N93F7TC1DS) | Charles Babbage Block / Dept. of Computer Technology from the road: portico, sign, steps, ramp, forecourt | merged | Modelled in `buildings/detailed/ct_charles_babbage.glb` (tools/ct_charles_babbage_bpy.py) |
+| CT photo 2 (2026-10-18, chat attachment 01M585AECX15DAQKGEZ2XEAJEG) | Same building, front 3/4: 2 storeys, salmon bands/pilasters, sunshade ledges, teak lattice entrance, 5 granite steps, ramp, hex pavers, potted plants | merged | Same model; replaces the approximate procedural Charles Babbage box |
+
 ## Merge log
 
 | Date | Video | Model file | Commit | Notes |
@@ -33,3 +40,4 @@ Drop each user-generated 3D output in `Chromepet/incoming/<video-id>/` (preferre
 | 2026-10-18 | 7ukD24Afw44, Lxfu7Ca0t1g, Lnbh9o4DO_w, 9puuqORQ9jA, UiqrwMtWw90 | ground/ground_v2.glb, props/landmarks.glb, props/trees.glb | a360d9b | Paving, landmarks, trees |
 | 2026-10-18 | pU7IlCqgIkU, QKCAmu_7zfg, yWtKV24QGR4, J_mGzeckHCw, qhQ7aS-qETw | roads/roads_v2.glb | dabaf4a | GST Road, flyover, overbridge, station, railway, subway |
 | 2026-10-18 | QKCAmu_7zfg, 7ukD24Afw44, Lnbh9o4DO_w | unity/Assets/Scripts/Editor/*.cs | 5fdb94d | Spawn inside Main Gate, GLB import + colliders |
+| 2026-10-18 | CT photos 1-2 | buildings/detailed/ct_charles_babbage.glb | (this commit) | Detailed Charles Babbage Block (bpy), Unity imports detailed buildings + hides procedural box |

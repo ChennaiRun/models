@@ -20,6 +20,10 @@ public static class ChromepetSync
     public static void Sync()
     {
         foreach (var g in Glbs) Copy(g, Dst + Path.GetFileName(g));
+        var det = Path.Combine(AreaRoot, "buildings", "detailed");
+        if (Directory.Exists(det))
+            foreach (var f in Directory.GetFiles(det, "*.glb"))
+                Copy(Path.Combine("buildings", "detailed", Path.GetFileName(f)), Dst + "detailed/" + Path.GetFileName(f));
         Copy("props/trees_colliders.json", Dst + "trees_colliders.json");
         Copy("data/v2_meta.json", Dst + "v2_meta.json");
         CopyPlayer("Baymax/baymax.glb", "Assets/Characters/Baymax/baymax.glb");
