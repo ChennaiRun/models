@@ -1,0 +1,59 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E",
+  "source_notes": "See REFERENCE_MEDIA.md; geometry is an original low-poly interpretation, not a photogrammetry extraction.",
+  "station_coordinates": [
+    12.9514922,
+    80.1408089
+  ],
+  "rail_yaw_enu_degrees": 73.5,
+  "station_board_enu": [
+    [
+      147.88,
+      251.81
+    ],
+    [
+      169.47,
+      352.84
+    ],
+    [
+      141.81,
+      291.15
+    ],
+    [
+      159.13,
+      377.8
+    ]
+  ],
+  "station_office_enu": [
+    117.1,
+    235.9
+  ],
+  "train_centre_enu": [
+    156.52,
+    328.51
+  ],
+  "auto_rickshaw_enu": [
+    [
+      282.07,
+      219.44
+    ],
+    [
+      282.07,
+      222.64
+    ],
+    [
+      282.07,
+      225.84
+    ],
+    [
+      -83.54,
+      -248.24
+    ]
+  ],
+  "contents": {
+    "station_boards": 4,
+    "station_office": 1,
+    "suburban_emu_cars": 3,
+    "auto_rickshaws": 4
+  }
+}

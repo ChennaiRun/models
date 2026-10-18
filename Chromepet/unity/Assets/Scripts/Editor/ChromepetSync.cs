@@ -14,7 +14,8 @@ public static class ChromepetSync
     public const string Dst = "Assets/Models/Chrompet/";
     public static readonly string[] Glbs = {
         "ground/ground_v2.glb", "roads/roads_v2.glb", "buildings/campus_buildings.glb",
-        "buildings/outside_buildings.glb", "props/landmarks.glb", "props/trees.glb" };
+        "buildings/outside_buildings.glb", "props/landmarks.glb", "props/chrompet_identity.glb",
+        "props/trees.glb" };
 
     [MenuItem("Chrompet/Sync Area Assets")]
     public static void Sync()
@@ -26,6 +27,7 @@ public static class ChromepetSync
                 Copy(Path.Combine("buildings", "detailed", Path.GetFileName(f)), Dst + "detailed/" + Path.GetFileName(f));
         Copy("props/trees_colliders.json", Dst + "trees_colliders.json");
         Copy("data/v2_meta.json", Dst + "v2_meta.json");
+        Copy("data/identity_meta.json", Dst + "identity_meta.json");
         CopyPlayer("Baymax/baymax.glb", "Assets/Characters/Baymax/baymax.glb");
         var vikram = Path.Combine(PlayersRoot, "Vikram");
         if (Directory.Exists(vikram))
