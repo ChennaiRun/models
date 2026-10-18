@@ -1,0 +1,15 @@
+{
+  "scopedRegistries": [
+    { "name": "Cesium", "url": "https://unity.pkg.cesium.com", "scopes": ["com.cesium.unity"] }
+  ],
+  "dependencies": {
+    "com.cesium.unity": "1.15.0",
+    "com.unity.cloud.gltfast": "6.8.0",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.modules.physics": "1.0.0",
+    "com.unity.modules.animation": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.modules.imgui": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0"
+  }
+}
