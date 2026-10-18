@@ -10,11 +10,12 @@ Area starter centred on the MIT campus, Chromepet (bbox 12.935–12.960 N, 80.12
 | `combined/` | `chrompet_mit.glb` (all layers) |
 | `props/` | `landmarks.glb`, `trees.glb`, `trees_colliders.json` |
 | `tools/` | `mit_details.py` (v2), `osm_to_mesh.py` (v1) |
-| `unity/` | Unity 2022.3 project (controller, scene builder, Mixamo setup) |
-| `characters/` | Mixamo drop folder + instructions |
+| `unity/` | Unity 2022.3 project (controller, scene builder, Vikram avatar setup) |
 
 Coordinates (v2 GLB): standard glTF, metres, x=east, y=up, z=-north, origin 12.9487 N 80.1394 E. v1 OBJs used z=north and appear mirrored east-west in Unity; use v2.
 Spawn: on the campus avenue 12 m inside the Main Gate (OSM node 432468247, MIT Road right after the MIT Flyover). Video sources: `REFERENCE_VIDEOS.md`.
+
+Player models are shared across areas in [`../players/`](../players/).
 
 ## Approach
 * **Gameplay (offline):** procedural OSM meshes – ODbL; refine MIT buildings by hand in Blender (BlenderOSM / Blender GIS).

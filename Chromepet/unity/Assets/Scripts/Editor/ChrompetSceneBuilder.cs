@@ -102,7 +102,7 @@ public static class ChrompetSceneBuilder
 
         Directory.CreateDirectory("Assets/Scenes");
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/MIT_Chrompet.unity");
-        MixamoSetup.TrySwapAvatar(player); // no-op until Mixamo FBX files exist
+        VikramSetup.TrySwapAvatar(player); // no-op until Vikram.fbx has been synced
         Debug.Log($"MIT Chromepet scene built. Spawn {spawn}, axis signs x{sx} z{sz}.");
     }
 

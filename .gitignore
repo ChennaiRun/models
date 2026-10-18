@@ -108,6 +108,7 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-# Chromepet: synced copies of area meshes / Mixamo FBX (sources live in ../buildings etc.)
+# Chromepet: synced copies of area meshes and player assets (sources live in models/players)
 Chromepet/unity/Assets/Models/
-Chromepet/unity/Assets/Characters/Mixamo/*.fbx
+Chromepet/unity/Assets/Characters/Vikram/
+Chromepet/unity/Assets/Characters/Baymax/

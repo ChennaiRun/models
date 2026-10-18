@@ -1,6 +1,8 @@
 # ChennaiRun / models
 3D area models and tooling for ChennaiRun. One top-level folder per area.
 
+Reusable character assets live in [`players/`](players/), separate from the area models.
+
 | Area | Status |
 |---|---|
 | [`Chromepet/`](Chromepet/) | MIT Chromepet starter: OSM-extruded buildings, roads, ground, Unity project |

@@ -3,15 +3,15 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-/// Menu: Chrompet > Setup Mixamo Avatar
-/// Sets Humanoid rig on Assets/Characters/Mixamo/*.fbx, builds an AnimatorController with a 1D "Speed" blend tree
+/// Menu: Chrompet > Setup Vikram Avatar
+/// Sets Humanoid rig on Assets/Characters/Vikram/*.fbx, builds an AnimatorController with a 1D "Speed" blend tree
 /// (Idle 0, Walking 2, Running 5.5 m/s), and swaps the character onto the Player (replacing the capsule).
-public static class MixamoSetup
+public static class VikramSetup
 {
-    const string Dir = "Assets/Characters/Mixamo/";
-    const string CtrlPath = Dir + "PlayerLocomotion.controller";
+    const string Dir = "Assets/Characters/Vikram/";
+    const string CtrlPath = Dir + "VikramLocomotion.controller";
 
-    [MenuItem("Chrompet/Setup Mixamo Avatar")]
+    [MenuItem("Chrompet/Setup Vikram Avatar")]
     public static void Menu() { var p = GameObject.Find("Player"); if (p) TrySwapAvatar(p); else Debug.LogError("No Player in scene"); }
 
     static bool SetHumanoid(string path, bool loop, Avatar source)
@@ -37,8 +37,8 @@ public static class MixamoSetup
 
     public static void TrySwapAvatar(GameObject player)
     {
-        string charPath = Dir + "Character.fbx";
-        if (!SetHumanoid(charPath, false, null)) { Debug.Log("Mixamo Character.fbx not found; keeping capsule placeholder."); return; }
+        string charPath = Dir + "Vikram.fbx";
+        if (!SetHumanoid(charPath, false, null)) { Debug.Log("Vikram.fbx not found; keeping capsule placeholder."); return; }
         var avatar = AssetDatabase.LoadAssetAtPath<Avatar>(charPath);
         foreach (var n in new[] { "Idle", "Walking", "Running" }) SetHumanoid(Dir + n + ".fbx", true, avatar);
 
@@ -53,7 +53,7 @@ public static class MixamoSetup
 
         var old = player.transform.Find("Body_Placeholder"); if (old) Object.DestroyImmediate(old.gameObject);
         var model = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(charPath), player.transform);
-        model.name = "Body_Mixamo"; model.transform.localPosition = Vector3.zero;
+        model.name = "Body_Vikram"; model.transform.localPosition = Vector3.zero;
         var animator = model.GetComponent<Animator>() ?? model.AddComponent<Animator>();
         animator.avatar = avatar; animator.runtimeAnimatorController = ctrl; animator.applyRootMotion = false;
         var pc = player.GetComponent<PlayerController>();
@@ -61,7 +61,7 @@ public static class MixamoSetup
         var pa = player.GetComponent<PlayerAnimator>() ?? player.AddComponent<PlayerAnimator>();
         pa.player = pc; pa.animator = animator;
         AssetDatabase.SaveAssets();
-        Debug.Log("Mixamo avatar installed on Player.");
+        Debug.Log("Vikram avatar installed on Player.");
     }
 }
 #endif
