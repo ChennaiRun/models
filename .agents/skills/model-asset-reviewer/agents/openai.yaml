@@ -1,0 +1,4 @@
+interface:
+  display_name: "Model Asset Reviewer"
+  short_description: "Review 3D assets, provenance, and performance"
+  default_prompt: "Use $model-asset-reviewer to audit model assets before they are merged."

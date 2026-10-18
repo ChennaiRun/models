@@ -1,0 +1,4 @@
+interface:
+  display_name: "Area Model Builder"
+  short_description: "Build geospatial Chennai area model layers"
+  default_prompt: "Use $area-model-builder to add a new real-world area or landmark model to this repository."

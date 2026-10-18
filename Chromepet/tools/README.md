@@ -7,3 +7,7 @@ Requires `pip install trimesh shapely scipy pillow numpy`. Run from `Chromepet/`
 ## Chrompet identity layer (chrompet_identity.py)
 
 Requires `pip install trimesh pillow numpy`. Run from `Chromepet/`: `python3 tools/chrompet_identity.py`. This script does not require `data/osm_raw.osm`, so it works before Git LFS data is fetched. It writes `props/chrompet_identity.glb` and `data/identity_meta.json` in the same v2 coordinate frame. See `../REFERENCE_MEDIA.md` for the observation sources and licensing notes.
+
+## Detailed buildings
+
+`ct_charles_babbage_bpy.py` runs inside Blender: `blender -b -P tools/ct_charles_babbage_bpy.py`. It writes `buildings/detailed/ct_charles_babbage.glb`. Detailed generators should remain additive and own exactly one output where practical so separate agents can work without regenerating the area-wide building layer.

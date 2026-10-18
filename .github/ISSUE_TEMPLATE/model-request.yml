@@ -1,0 +1,45 @@
+name: Model request
+description: Propose a new area, building, landmark, prop, transport asset, or character.
+title: "[Model]: "
+labels: ["model-request"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Asset type
+      options:
+        - Area base
+        - Detailed building
+        - Landmark or prop
+        - Road or transport
+        - Vegetation
+        - Character
+        - Unity integration
+    validations:
+      required: true
+  - type: input
+    id: area
+    attributes:
+      label: Area and location
+      description: Include the area name and coordinates or a map link when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Explain what should be recognisable or usable in the game.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References and permissions
+      description: List URLs, creators, licences, and whether any attached media may be committed.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance notes
+      description: Placement, scale, detail, collider, performance, or Unity requirements.

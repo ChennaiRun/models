@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Model Integrator"
+  short_description: "Integrate model assets into the Unity project"
+  default_prompt: "Use $unity-model-integrator to wire new GLB or FBX assets into the ChennaiRun Unity project."
