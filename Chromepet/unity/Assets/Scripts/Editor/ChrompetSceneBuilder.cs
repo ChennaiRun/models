@@ -26,6 +26,8 @@ public static class ChrompetSceneBuilder
         ChromepetSync.Sync();
         var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
         if (Camera.main) Object.DestroyImmediate(Camera.main.gameObject); // player brings its own camera
+        foreach (var existingLight in Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
+            Object.DestroyImmediate(existingLight.gameObject);
 
         var world = new GameObject("Chromepet_World");
         GameObject landmarks = null;
@@ -36,9 +38,11 @@ public static class ChrompetSceneBuilder
             if (!prefab) { Debug.LogError("Missing/unimported " + Dir + file + " (is glTFast installed?)"); continue; }
             var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, world.transform);
             go.name = Path.GetFileNameWithoutExtension(file);
-            foreach (var t in go.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
+            SetAreaStaticFlags(go);
             if (file == "landmarks.glb") landmarks = go;
             if (file == "trees.glb") continue; // trees: capsule colliders only
+            bool addMeshColliders = file == "ground_v2.glb" || file.Contains("buildings") || file == "landmarks.glb";
+            if (!addMeshColliders) continue;
             foreach (var mf in go.GetComponentsInChildren<MeshFilter>())
             {
                 if (mf.name.StartsWith("Spawn")) continue;
@@ -103,8 +107,17 @@ public static class ChrompetSceneBuilder
         }
 
         // Sun
-        var sun = new GameObject("Sun", typeof(Light)); var l = sun.GetComponent<Light>(); l.type = LightType.Directional; l.shadows = LightShadows.Soft;
+        var sun = new GameObject("Sun", typeof(Light)); var l = sun.GetComponent<Light>();
+        l.type = LightType.Directional;
+        l.color = new Color(1f, 0.956f, 0.84f);
+        l.intensity = 0.65f;
+        l.shadowStrength = 0.85f;
+        l.shadows = LightShadows.Soft;
         sun.transform.rotation = Quaternion.Euler(50, 140, 0);
+        RenderSettings.sun = l;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+        RenderSettings.ambientIntensity = 0.55f;
+        RenderSettings.reflectionIntensity = 0.5f;
 
         // Player (on foot only)
         var player = new GameObject("Player");
@@ -127,10 +140,35 @@ public static class ChrompetSceneBuilder
         Directory.CreateDirectory("Assets/Scenes");
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/MIT_Chrompet.unity");
         VikramSetup.TrySwapAvatar(player); // no-op until Vikram.fbx has been synced
+
+        // Leave the editor in a useful perspective view. Selecting the world root outlines
+        // every imported mesh, and an orthographic side view makes the area look flattened.
+        Selection.activeGameObject = player;
+        var sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
+        {
+            sceneView.cameraMode = SceneView.GetBuiltinCameraMode(DrawCameraMode.Textured);
+            sceneView.orthographic = false;
+            sceneView.pivot = spawn + Vector3.up * 2f;
+            sceneView.rotation = Quaternion.Euler(25f, player.transform.eulerAngles.y, 0f);
+            sceneView.size = 30f;
+            sceneView.Repaint();
+        }
         Debug.Log($"MIT Chromepet scene built. Spawn {spawn}, axis signs x{sx} z{sz}.");
     }
 
     [System.Serializable] class Meta { public float[] spawn_gltf; }
+
+    // City-scale procedural layers use realtime lighting. Marking them ContributeGI asks
+    // Unity to unwrap enormous road/building meshes and can crash the lightmap importer.
+    static void SetAreaStaticFlags(GameObject root)
+    {
+        const StaticEditorFlags flags = StaticEditorFlags.BatchingStatic |
+                                        StaticEditorFlags.OccluderStatic |
+                                        StaticEditorFlags.OccludeeStatic;
+        foreach (var t in root.GetComponentsInChildren<Transform>())
+            GameObjectUtility.SetStaticEditorFlags(t.gameObject, flags);
+    }
 
     static Transform FindDeep(Transform t, string prefix)
     {

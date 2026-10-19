@@ -71,8 +71,9 @@ def main() -> int:
         if not (root / name).is_file():
             errors.append(f"missing required document: {name}")
 
+    generated_dirs = {".git", "Library", "Logs", "Obj", "Temp", "UserSettings"}
     for path in sorted(root.rglob("*")):
-        if not path.is_file() or ".git" in path.parts:
+        if not path.is_file() or generated_dirs.intersection(path.parts):
             continue
         rel = path.relative_to(root)
         try:

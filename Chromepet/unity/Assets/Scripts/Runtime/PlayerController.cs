@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// On-foot only controller: WASD, mouse look, gravity, jump, sprint (Shift), V toggles 1st/3rd person.
 /// No fly / free-cam mode by design.
@@ -26,20 +27,37 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-        pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * mouseSensitivity, -80f, 80f);
+        var keyboard = Keyboard.current;
+        var mouse = Mouse.current;
+        Vector2 look = mouse != null ? mouse.delta.ReadValue() : Vector2.zero;
+        yaw += look.x * mouseSensitivity * 0.02f;
+        pitch = Mathf.Clamp(pitch - look.y * mouseSensitivity * 0.02f, -80f, 80f);
         transform.rotation = Quaternion.Euler(0, yaw, 0);
         cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
-        if (Input.GetKeyDown(KeyCode.V)) thirdPerson = !thirdPerson;
-        if (Input.GetKeyDown(KeyCode.Escape)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
+        if (keyboard != null && keyboard.vKey.wasPressedThisFrame) thirdPerson = !thirdPerson;
+        if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        Vector2 moveInput = Vector2.zero;
+        if (keyboard != null)
+        {
+            if (keyboard.aKey.isPressed) moveInput.x -= 1;
+            if (keyboard.dKey.isPressed) moveInput.x += 1;
+            if (keyboard.sKey.isPressed) moveInput.y -= 1;
+            if (keyboard.wKey.isPressed) moveInput.y += 1;
+        }
+        Vector3 input = new Vector3(moveInput.x, 0, moveInput.y);
         input = Vector3.ClampMagnitude(input, 1f);
-        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        bool sprinting = keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
+        float speed = sprinting ? sprintSpeed : walkSpeed;
         Vector3 move = transform.TransformDirection(input) * speed;
 
         if (cc.isGrounded && vy < 0) vy = -2f;
-        if (cc.isGrounded && Input.GetButtonDown("Jump")) vy = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (cc.isGrounded && keyboard != null && keyboard.spaceKey.wasPressedThisFrame)
+            vy = Mathf.Sqrt(jumpHeight * -2f * gravity);
         vy += gravity * Time.deltaTime;
         move.y = vy;
         cc.Move(move * Time.deltaTime);

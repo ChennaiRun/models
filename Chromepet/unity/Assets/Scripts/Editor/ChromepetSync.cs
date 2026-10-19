@@ -34,6 +34,32 @@ public static class ChromepetSync
             foreach (var f in Directory.GetFiles(vikram, "*.fbx"))
                 CopyPlayer(Path.Combine("Vikram", Path.GetFileName(f)), "Assets/Characters/Vikram/" + Path.GetFileName(f));
         AssetDatabase.Refresh();
+        EnableLightmapUvs(Dst);
+    }
+
+    // glTF has no dedicated lightmap-UV convention. Ask glTFast to generate Unity's
+    // secondary UV channel for every synced environment mesh so baked GI can unwrap it.
+    static void EnableLightmapUvs(string assetDirectory)
+    {
+        var absoluteDirectory = Path.Combine(Path.GetDirectoryName(Application.dataPath), assetDirectory);
+        if (!Directory.Exists(absoluteDirectory)) return;
+
+        foreach (var file in Directory.GetFiles(absoluteDirectory, "*.glb", SearchOption.AllDirectories))
+        {
+            var assetPath = file.Replace('\\', '/');
+            assetPath = "Assets/" + assetPath.Substring(Application.dataPath.Replace('\\', '/').Length + 1);
+            var importer = AssetImporter.GetAtPath(assetPath);
+            if (importer == null) continue;
+
+            var serializedImporter = new SerializedObject(importer);
+            var generateUvs = serializedImporter.FindProperty("editorImportSettings.generateSecondaryUVSet");
+            bool shouldGenerate = assetPath.Contains("/detailed/");
+            if (generateUvs == null || generateUvs.boolValue == shouldGenerate) continue;
+
+            generateUvs.boolValue = shouldGenerate;
+            serializedImporter.ApplyModifiedPropertiesWithoutUndo();
+            importer.SaveAndReimport();
+        }
     }
 
     static void Copy(string rel, string dst) => CopyFrom(AreaRoot, rel, dst);

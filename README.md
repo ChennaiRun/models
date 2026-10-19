@@ -48,7 +48,7 @@ cd Chromepet
 ../.venv/bin/python tools/chrompet_identity.py
 ```
 
-Open [Chromepet/unity](Chromepet/unity/) in Unity 2022.3 LTS and run **Chrompet → Build MIT Campus Scene** to sync source GLBs into the generated Unity asset folders.
+Open [Chromepet/unity](Chromepet/unity/) in Unity 6000.6 and run **Chrompet → Build MIT Campus Scene** to sync source GLBs into the generated Unity asset folders.
 
 ## Repo-local agent skills
 
