@@ -151,7 +151,10 @@ def text_plane(image, width, height):
         dtype=float,
     )
     faces = np.array([[0, 2, 1], [0, 3, 2], [0, 1, 2], [0, 2, 3]])
-    uv = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=float)
+    # u runs opposite to +x: a viewer in front of the plane (the +y side) sees +x
+    # to their left, so u=0 (start of text) must sit at the +x edge or the sign
+    # reads mirrored. Verified by render (previously read reversed).
+    uv = np.array([[1, 0], [0, 0], [0, 1], [1, 1]], dtype=float)
     mesh = trimesh.Trimesh(vertices, faces, process=False)
     mesh.visual = trimesh.visual.TextureVisuals(
         uv=uv,

@@ -116,7 +116,10 @@ def text_plane(image, width, height):
         dtype=float,
     )
     faces = np.array([[0, 2, 1], [0, 3, 2], [0, 1, 2], [0, 2, 3]])
-    uv = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=float)
+    # u runs opposite to the plane's +x: on both fuselage sides a viewer looking
+    # at the plane sees its +x edge on their left, so u=0 (start of "NAVY") must
+    # sit there or the titles read mirrored. Verified by renders of both sides.
+    uv = np.array([[1, 0], [0, 0], [0, 1], [1, 1]], dtype=float)
     mesh = trimesh.Trimesh(vertices, faces, process=False)
     mesh.visual = trimesh.visual.TextureVisuals(
         uv=uv,

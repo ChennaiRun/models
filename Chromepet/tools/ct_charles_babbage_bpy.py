@@ -26,7 +26,7 @@ WOOD = mat('orange_wood', (0.72, 0.36, 0.12), 0.6); DARK = mat('doorway_dark', (
 LATT = mat('jali_lattice', (0.82, 0.70, 0.52)); BROWN = mat('sign_brown', (0.30, 0.17, 0.08), 0.5)
 STEEL = mat('steel_rail', (0.75, 0.76, 0.78), 0.3, 1.0); STEP = mat('black_granite', (0.05, 0.05, 0.06), 0.25)
 PAVE = mat('terracotta_hex_pavers', (0.62, 0.30, 0.24)); POT = mat('pot', (0.45, 0.22, 0.12)); LEAF = mat('plant', (0.18, 0.45, 0.15)); LIGHT = mat('tube_light', (1, 1, 1), 0.2); GREY = mat('concrete', (0.62, 0.61, 0.58))
-COLM = mat('collision', (1, 0, 1))
+COLM = mat('collision', (0.90, 0.76, 0.66))  # facade cream, same as CREAM -- NOT Blender placeholder magenta (1, 0, 1): Unity disables COL_* renderers, but in any other viewer the COL_main shell hid the whole block behind a magenta box
 
 def box(name, cx, cy, cz, sx, sy, sz, m, parent=root):
     bpy.ops.mesh.primitive_cube_add(size=1, location=(cx, cy, cz)); o = bpy.context.object
