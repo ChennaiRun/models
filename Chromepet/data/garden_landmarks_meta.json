@@ -1,0 +1,49 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at the MIT letters; item centres below are local ENU (x=east, y=north)",
+  "placement": "APPROXIMATE / unsited as a set; site each named group individually (suggested: letters on the avenue lawn inside the Main Gate, statue in its garden at the end of the internal road in photo 16.jpg, pergola/gazebo in the garden by the Admin/Library lawns in photo 18.jpg)",
+  "provenance": "User's own photos 11.jpg, 13.jpg, 16.jpg, 18.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+  "generator": "tools/avenue_garden_landmarks.py",
+  "output": "props/avenue_garden_landmarks.glb",
+  "item_centres_local_enu": {
+    "MIT_letters": [
+      0.0,
+      0.0
+    ],
+    "Golden_statue_garden": [
+      17.0,
+      7.0
+    ],
+    "Pergola": [
+      -13.0,
+      11.0
+    ],
+    "Gazebo": [
+      -23.5,
+      3.0
+    ]
+  },
+  "contents": {
+    "mit_letters": 1,
+    "golden_statue_garden": 1,
+    "pergola": 1,
+    "gazebo": 1
+  },
+  "glb_stats": {
+    "geometries": 77,
+    "vertices": 1986,
+    "faces": 3668,
+    "bounds_gltf": [
+      [
+        -29.0,
+        -0.05,
+        -17.0
+      ],
+      [
+        23.0,
+        5.2,
+        7.0
+      ]
+    ]
+  },
+  "integration": "Outstanding: site each group, then add 'props/avenue_garden_landmarks.glb' to ChromepetSync.Glbs (or split per group). Detailed statue does not replace props/landmarks.glb."
+}

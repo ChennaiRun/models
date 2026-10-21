@@ -3,12 +3,12 @@ Area starter centred on the MIT campus, Chromepet (bbox 12.935–12.960 N, 80.12
 
 | Folder | Contents |
 |---|---|
-| `data/` | `osm_raw.osm`, `preview.png`, `stats.json`, `v2_meta.json`, `identity_meta.json` |
+| `data/` | `osm_raw.osm`, `preview.png`, `stats.json`, `v2_meta.json`, `identity_meta.json`, plus per-model metadata for the Drive-photo models (`oat_meta.json`, `garden_landmarks_meta.json`, `production_frontage_meta.json`, `navy_aircraft_meta.json`) |
 | `buildings/` | v2 area layers plus additive replacements in `detailed/` (currently Charles Babbage Block); v1: `buildings.obj` |
 | `roads/` | v2: `roads_v2.glb` (GST Road, MIT Flyover, railway, station, overbridge, subway, poles); v1: `roads.obj` |
 | `ground/` | v2: `ground_v2.glb` (campus ground, interlock paving, tactile strips); v1: `ground.obj` |
 | `combined/` | `chrompet_mit.glb` (all layers) |
-| `props/` | `landmarks.glb`, `chrompet_identity.glb`, `trees.glb`, `trees_colliders.json` |
+| `props/` | `landmarks.glb`, `chrompet_identity.glb`, `trees.glb`, `trees_colliders.json`, plus additive Drive-photo models: `open_air_theatre.glb`, `avenue_garden_landmarks.glb`, `navy_aircraft_display.glb` |
 | `tools/` | Area, identity and detailed-building generators; see `tools/README.md` |
 | `unity/` | Unity 2022.3 project (controller, scene builder, Vikram avatar setup) |
 

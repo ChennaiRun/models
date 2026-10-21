@@ -15,7 +15,7 @@ public static class ChromepetSync
     public static readonly string[] Glbs = {
         "ground/ground_v2.glb", "roads/roads_v2.glb", "buildings/campus_buildings.glb",
         "buildings/outside_buildings.glb", "props/landmarks.glb", "props/chrompet_identity.glb",
-        "props/trees.glb" };
+        "props/navy_aircraft_display.glb", "props/trees.glb" };
 
     [MenuItem("Chrompet/Sync Area Assets")]
     public static void Sync()
@@ -28,6 +28,7 @@ public static class ChromepetSync
         Copy("props/trees_colliders.json", Dst + "trees_colliders.json");
         Copy("data/v2_meta.json", Dst + "v2_meta.json");
         Copy("data/identity_meta.json", Dst + "identity_meta.json");
+        Copy("data/navy_aircraft_meta.json", Dst + "navy_aircraft_meta.json");
         var vikram = Path.Combine(PlayersRoot, "Vikram");
         if (Directory.Exists(vikram))
             foreach (var f in Directory.GetFiles(vikram, "*.fbx"))

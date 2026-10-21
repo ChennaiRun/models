@@ -1,0 +1,33 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at facade centre, front normal = local +Y (north before export transform)",
+  "placement": "APPROXIMATE / unsited: additive overlay for the 'Department of Production Technology' procedural node in tools/mit_details.py (style 'auto', 28x18 m node box); place just in front of that box rotated to mit_details.facing(); do NOT hide the procedural building",
+  "provenance": "User's own photo 14.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+  "generator": "tools/production_technology_frontage.py",
+  "output": "buildings/detailed/production_technology_frontage.glb",
+  "style_correction_for_mit_details": "Production Technology entrance face is cream + mustard-yellow lower band with dark-blue sign and oval/square lattice screens (photo 14.jpg), not the generic 'auto' white + light-green bands; mit_details.py not re-run here because data/osm_raw.osm is a Git LFS pointer on this machine",
+  "wider_context": "Photo 45.jpg shows this frontage is the ground floor of a taller pale-green lattice block shared with the Division of Applied Sciences & Humanities (same oval-lattice language as Mechatronics, photos 15/44.jpg); this additive model covers the ground-floor frontage only. Photos 40-43.jpg show a separate newer cream/teal Production Technology block (4 storeys, teal sunshades) -- a future detailed model, not covered here.",
+  "contents": {
+    "facade_width_m": 26.0,
+    "sign": "DEPARTMENT OF PRODUCTION TECHNOLOGY (original PIL rendering)",
+    "lattice_panels": 4,
+    "porch_columns": 4
+  },
+  "glb_stats": {
+    "geometries": 244,
+    "vertices": 4288,
+    "faces": 7600,
+    "bounds_gltf": [
+      [
+        -13.24,
+        0.0,
+        -5.68
+      ],
+      [
+        13.24,
+        7.18,
+        0.7
+      ]
+    ]
+  },
+  "integration": "Outstanding: ChrompetSceneBuilder auto-loads every buildings/detailed/*.glb at its baked position, so this origin-centred file will appear at the world origin until the builder gains a placement entry for it; integrator should add that entry (translate/rotate the root to the Production Technology node, COL_frontage becomes its collider) before shipping it in the game scene."
+}

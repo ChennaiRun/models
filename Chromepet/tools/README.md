@@ -11,3 +11,12 @@ Requires `pip install trimesh pillow numpy`. Run from `Chromepet/`: `python3 too
 ## Detailed buildings
 
 `ct_charles_babbage_bpy.py` runs inside Blender: `blender -b -P tools/ct_charles_babbage_bpy.py`. It writes `buildings/detailed/ct_charles_babbage.glb`. Detailed generators should remain additive and own exactly one output where practical so separate agents can work without regenerating the area-wide building layer.
+
+## Drive-photo models (2026-10-20)
+
+Standalone trimesh generators from the user's own MIT campus photos (Drive folder 'mit'; full catalogue in `../REFERENCE_VIDEOS.md`). Like the identity layer they need no OSM/LFS input: `pip install trimesh numpy pillow`, run from `Chromepet/` as `python3 tools/<name>.py`. Each writes one additive GLB plus a metadata JSON in `../data/`.
+
+* `oat_theatre.py` -> `../props/open_air_theatre.glb` + `oat_meta.json` (origin-centred)
+* `avenue_garden_landmarks.py` -> `../props/avenue_garden_landmarks.glb` + `garden_landmarks_meta.json` (origin-centred set)
+* `production_technology_frontage.py` -> `../buildings/detailed/production_technology_frontage.glb` + `production_frontage_meta.json` (origin-centred)
+* `navy_aircraft.py` -> `../props/navy_aircraft_display.glb` + `navy_aircraft_meta.json` (world-positioned, registered in ChromepetSync)

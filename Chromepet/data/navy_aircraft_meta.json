@@ -1,0 +1,30 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
+  "placement": "APPROXIMATE: centre ENU (154.0, -26.0), south-east of the aircraft grove centre (142.6, -10.2) in data/v2_meta.json; heading 0.55 rad ENU; from photo 15.jpg viewpoint, not surveyed",
+  "provenance": "User's own photo 15.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+  "generator": "tools/navy_aircraft.py",
+  "output": "props/navy_aircraft_display.glb",
+  "contents": {
+    "aircraft": 1,
+    "display_plinth": 1,
+    "supports": 2
+  },
+  "glb_stats": {
+    "geometries": 24,
+    "vertices": 350,
+    "faces": 604,
+    "bounds_gltf": [
+      [
+        145.4,
+        0.0,
+        18.91
+      ],
+      [
+        162.6,
+        5.24,
+        32.87
+      ]
+    ]
+  },
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned, like props/chrompet_identity.glb); Unity was not opened/compiled on this machine"
+}

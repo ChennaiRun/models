@@ -1,0 +1,33 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at theatre centre (not world-sited)",
+  "placement": "APPROXIMATE / unsited: surveyed ENU unknown; site west of the main avenue before Unity sync registration",
+  "provenance": "User's own photo 1.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+  "generator": "tools/oat_theatre.py",
+  "output": "props/open_air_theatre.glb",
+  "contents": {
+    "plaza_radius_m": 19.0,
+    "paved_rings": 8,
+    "terrace_steps": 6,
+    "lamp_posts": 8,
+    "sign_board": 1,
+    "stage_screen": "curved red-brick slat screen + pergola beam (photo 76.jpg)"
+  },
+  "glb_stats": {
+    "geometries": 193,
+    "vertices": 3676,
+    "faces": 6616,
+    "bounds_gltf": [
+      [
+        -31.5,
+        0.0,
+        -31.5
+      ],
+      [
+        31.5,
+        4.86,
+        31.5
+      ]
+    ]
+  },
+  "integration": "Outstanding: add 'props/open_air_theatre.glb' to ChromepetSync.Glbs after siting the root node"
+}
