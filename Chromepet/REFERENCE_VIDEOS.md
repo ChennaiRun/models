@@ -142,3 +142,4 @@ GLB + `data/*_meta.json`); placements marked APPROXIMATE are unsurveyed.
 | 2026-10-18 | pU7IlCqgIkU, QKCAmu_7zfg, yWtKV24QGR4, J_mGzeckHCw, qhQ7aS-qETw | roads/roads_v2.glb | dabaf4a | GST Road, flyover, overbridge, station, railway, subway |
 | 2026-10-18 | QKCAmu_7zfg, 7ukD24Afw44, Lnbh9o4DO_w | unity/Assets/Scripts/Editor/*.cs | 5fdb94d | Spawn inside Main Gate, GLB import + colliders |
 | 2026-10-18 | CT photos 1-2 | buildings/detailed/ct_charles_babbage.glb | 8d12e9c | Detailed Charles Babbage Block (bpy), Unity imports detailed buildings + hides procedural box |
+| 2026-10-21 | Drive photos 14/22/31/45/52.jpg (style cross-check) | tools/mit_details.py, tools/chrompet_identity.py; buildings/campus_buildings.glb, props/landmarks.glb, props/chrompet_identity.glb | branch improve-existing-models | Improvement pass: 'prodtech' + 'rlhc' styles, Aero maroon/cream, fountain sign to avenue side, station board text UV fix |

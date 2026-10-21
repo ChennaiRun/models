@@ -43,7 +43,8 @@ C = dict(  # palette (sRGB 0-1)
  trunk=(0.38,0.27,0.17), canopy=(0.20,0.40,0.14), canopy2=(0.27,0.47,0.17), coconut_leaf=(0.35,0.55,0.18),
  navy=(0.18,0.30,0.60), camo=(0.42,0.46,0.35), steel=(0.55,0.56,0.58), ballast=(0.45,0.42,0.38),
  green_bridge=(0.20,0.55,0.30), billboard=(0.90,0.90,0.90), stripe_blue=(0.20,0.35,0.75), pole=(0.55,0.55,0.55),
- wire=(0.08,0.08,0.08), shelter_blue=(0.20,0.40,0.70))
+ wire=(0.08,0.08,0.08), shelter_blue=(0.20,0.40,0.70), maroon=(0.48,0.18,0.16),
+ prod_cream=(0.93,0.87,0.74), prod_mustard=(0.78,0.58,0.16), prod_blue=(0.10,0.25,0.55))
 PASTELS = [(0.95,0.85,0.70),(0.80,0.90,0.95),(0.95,0.80,0.85),(0.85,0.95,0.80),(0.98,0.95,0.75),(0.90,0.85,0.95),(0.96,0.90,0.85),(0.85,0.92,0.88),(0.93,0.93,0.93)]
 
 class Layer:
@@ -153,10 +154,11 @@ for wid, t, pts, refs in WAYS:
 campus_fp = [(w, t, p) for w, t, p in foot if campus.contains(p.representative_point())]
 outside_fp = [(w, t, p) for w, t, p in foot if not campus.contains(p.representative_point())]
 
-NAME_STYLE = [  # keyword in OSM name -> style
- ('Admin', 'admin'), ('Lecture Hall Complex', 'lhc'), ('RLHC', 'lhc'), ('Aeronautical', 'aero'), ('Rajam Hall', 'rajam'),
+NAME_STYLE = [  # keyword in OSM name -> style ('RLHC' must precede 'Lecture Hall Complex': the RLHC
+ # name contains both, and photos 52/53.jpg show it white, unlike the pale-green LHC of photo 31.jpg)
+ ('Admin', 'admin'), ('RLHC', 'rlhc'), ('Lecture Hall Complex', 'lhc'), ('Aeronautical', 'aero'), ('Rajam Hall', 'rajam'),
  ('Electonics', 'green3'), ('Electronics', 'green3'), ('Instrumentation', 'green3'), ('Mechatronics', 'green3'),
- ('Production', 'auto'), ('Automobile', 'auto'), ('DCOE', 'green3'), ('Golden Jub', 'library'), ('KBC', 'cs'),
+ ('Production', 'prodtech'), ('Automobile', 'auto'), ('DCOE', 'green3'), ('Golden Jub', 'library'), ('KBC', 'cs'),
  ('Micsat', 'white2'), ('Hostel', 'hostel'), ('Alumini', 'white2'), ('Birla', 'hostel')]
 def facing(c):  # yaw pointing from building centre toward the avenue
     q = nearest_points(avenue, Point(*c))[0]; return math.atan2(q.y-c[1], q.x-c[0])
@@ -227,8 +229,8 @@ def style_building(name, style, poly, seed):
     elif style == 'green3':
         f = 2 + seed % 2; body(f*SH, 'light_green'); lay.add(facade_bands(c, L, W, yaw, f, 'white', th=0.25), 'white', tag)
     elif style == 'aero':
-        h = 2*SH; body(h, 'red'); lay.add(facade_bands(c, L, W, yaw, 2, 'yellow', th=0.6, depth=0.15), 'yellow', tag)
-        cols, slab, front, perp = portico(c, L, W, yaw, face, SH*1.2, 'yellow', 'red', n=4, depth=5); lay.add(cols, 'yellow', tag); lay.add(slab, 'red', tag)
+        h = 2*SH; body(h, 'maroon'); lay.add(facade_bands(c, L, W, yaw, 2, 'beige', th=0.6, depth=0.15), 'beige', tag)
+        cols, slab, front, perp = portico(c, L, W, yaw, face, SH*1.2, 'beige', 'maroon', n=4, depth=5); lay.add(cols, 'beige', tag); lay.add(slab, 'maroon', tag)
         ex, ey = front[0]+math.cos(face)*4, front[1]+math.sin(face)*4   # Rolls-Royce Pegasus engine on yellow stand
         LAND.add(obox(ex, ey, 3.2, 1.6, 0.9, face+math.pi/2), 'yellow', 'Pegasus_engine')
         eng = trimesh.creation.cylinder(radius=0.62, height=3.4, sections=16); eng.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0,1,0]))
@@ -266,6 +268,15 @@ def style_building(name, style, poly, seed):
     elif style == 'auto':
         f = 2 + seed % 2; body(f*SH, 'white'); lay.add(facade_bands(c, L, W, yaw, f, 'light_green', th=0.8, depth=0.1), 'light_green', tag)
         lay.add(facade_bands(c, L, W, yaw, f, 'yellow', z_every=SH, th=0.15, depth=0.2), 'yellow', tag)
+    elif style == 'prodtech':
+        # Photos 14/45.jpg: cream walls, mustard lower band, blue department sign band.
+        f = 2 + seed % 2; body(f*SH, 'prod_cream'); lay.add(facade_bands(c, L, W, yaw, f, 'prod_mustard', th=0.8, depth=0.1), 'prod_mustard', tag)
+        lay.add(facade_bands(c, L, W, yaw, f, 'prod_blue', z_every=SH, th=0.15, depth=0.2), 'prod_blue', tag)
+    elif style == 'rlhc':
+        # Photos 52/53.jpg (Rajam Lecture Hall Complex): white block, round-column portico, red doors.
+        f = 3; h = f*SH; body(h, 'white'); lay.add(facade_bands(c, L, W, yaw, f, 'concrete', depth=0.7, th=0.15), 'concrete', tag)
+        cols, slab, *_ = portico(c, L, W, yaw, face, SH, 'concrete', 'concrete', n=5, depth=5); lay.add(cols, 'concrete', tag); lay.add(slab, 'concrete', tag)
+        lay.add(obox(c[0]+math.cos(face)*(W/2+0.2), c[1]+math.sin(face)*(W/2+0.2), 0.3, 4.5, 2.4, face), 'red', tag)
     elif style == 'library': body(3*SH, 'white'); lay.add(facade_bands(c, L, W, yaw, 3, 'grey', th=0.2), 'grey', tag)
     elif style == 'atm': body(3.2, 'atm_green'); lay.add(obox(c[0]+math.cos(face)*(W/2+0.05), c[1]+math.sin(face)*(W/2+0.05), 0.2, max(2, L*0.8), 2.6, face), 'atm_blue', tag)
     elif style == 'hostel':
@@ -463,7 +474,7 @@ fxp, fyp = q.x-math.sin(ay)*14, q.y+math.cos(ay)*14
 ring = trimesh.creation.annulus(r_min=5.2, r_max=5.7, height=0.6, sections=32); ring.apply_translation([fxp, fyp, 0.3]); LAND.add(ring, 'concrete', 'Fountain')
 LAND.add(cyl(fxp, fyp, 5.2, 0.35, 0, 32), 'water', 'Fountain'); LAND.add(obox(fxp, fyp, 4.0, 0.5, 1.6, ay, 0.3), 'brown', 'Fountain')
 au = text_quad('ANNA UNIVERSITY', 3.8, 0.6, (0.95, 0.85, 0.5), (0.42, 0.27, 0.15), 512)
-LAND.textured.append(('Fountain_sign_text', place(au, fxp-math.sin(ay)*0.27, fyp+math.cos(ay)*0.27, 0.8, ay)))
+LAND.textured.append(('Fountain_sign_text', place(au, fxp+math.sin(ay)*0.27, fyp-math.cos(ay)*0.27, 0.8, ay)))
 # water tank on stilts (OSM node "MIT water tank") + circular umbrella seating in CS courtyard
 tx, ty = TANK
 for a in range(8): LAND.add(cyl(tx+math.cos(a*math.pi/4)*4.5, ty+math.sin(a*math.pi/4)*4.5, 0.4, 18), 'concrete', 'Water_tank')

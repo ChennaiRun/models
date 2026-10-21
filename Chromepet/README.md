@@ -7,7 +7,7 @@ Area starter centred on the MIT campus, Chromepet (bbox 12.935–12.960 N, 80.12
 | `buildings/` | v2 area layers plus additive replacements in `detailed/` (Charles Babbage Block; Production Technology frontage overlay); v1: `buildings.obj` |
 | `roads/` | v2: `roads_v2.glb` (GST Road, MIT Flyover, railway, station, overbridge, subway, poles); v1: `roads.obj` |
 | `ground/` | v2: `ground_v2.glb` (campus ground, interlock paving, tactile strips); v1: `ground.obj` |
-| `combined/` | `chrompet_mit.glb` (all layers) |
+| `combined/` | `chrompet_mit.glb` — LEGACY v1 combined export (`tools/osm_to_mesh.py`, z=north frame, mirrored vs v2). Stale: not regenerated and not used by Unity sync; the v2 layers above are canonical. |
 | `props/` | `landmarks.glb`, `chrompet_identity.glb`, `trees.glb`, `trees_colliders.json`, plus additive Drive-photo models, all world-positioned and sited (2026-10-21): `open_air_theatre.glb`, `mit_letters.glb`, `golden_statue_garden.glb`, `pergola.glb`, `gazebo.glb`, `navy_aircraft_display.glb`, and `connector_paths.glb` linking them to the road network |
 | `tools/` | Area, identity and detailed-building generators; see `tools/README.md` |
 | `unity/` | Unity 2022.3 project (controller, scene builder, Vikram avatar setup) |
@@ -28,3 +28,8 @@ New contributors and coding agents should follow the repository-level [`MODEL_ST
 * Gaps: OSM has 0 height tags / 17 levels tags here; MIT campus outline not mapped in OSM; no DEM yet.
 
 Data © OpenStreetMap contributors (ODbL).
+
+## Improvement pass (2026-10-21)
+
+Generator-level photo corrections, all render-verified before/after (backups kept outside the repo):
+`mit_details.py` — Production Technology no longer shares the Automobile 'auto' style: new 'prodtech' style (cream + mustard bands + blue sign band, photos 14/45.jpg); RLHC split from 'lhc' into 'rlhc' (white block, round-column portico, red doors, photos 52/53.jpg; the pale-green LHC of photo 31.jpg is unchanged); Aeronautical restyled maroon/cream (photo 22.jpg); the avenue fountain's ANNA UNIVERSITY sign moved to the avenue-facing side of its block, where it reads correctly (it was mirrored and unreadable). `chrompet_identity.py` — station nameboard text UVs fixed (Tamil/Hindi/English read correctly on both faces now) and Linux Noto font fallbacks added. Regeneration is deterministic: roads/ground/trees/outside-buildings outputs are byte-identical; only campus_buildings, landmarks and chrompet_identity changed. The Charles Babbage detailed block was assessed and left unchanged (its generator needs Blender, unavailable on the build machine; the 2026-10-21 magenta fix is intact).

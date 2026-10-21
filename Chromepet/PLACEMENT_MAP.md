@@ -74,6 +74,9 @@ Full centrelines (ENU polylines) are in the JSON under `road_network`.
 
 ## Known limitations
 
+- `combined/chrompet_mit.glb` is the legacy v1 combined export (mirrored z=north frame) and is deliberately NOT in this registry; build from the v2 layers listed here.
+- A generator improvement pass on 2026-10-21 restyled three campus buildings (Production Technology, RLHC, Aeronautical) and fixed two mirrored signs (avenue fountain, Chrompet station boards) — positions and anchors in this registry are unchanged by it.
+
 - All 2026-10-21 sites are `approximate`: derived from OSM geometry and the model's own layers, not from a survey. The OAT in particular has no OSM footprint; its site is the best clear ground west of the avenue, not a measured position.
 - Live Overpass was queried on 2026-10-21 and returned no additional campus features; the repo's `data/osm_raw.osm` extract (same ODbL source) was used instead.
 - Procedural trees (trees.glb) were not treated as siting obstacles; a tree may stand close to a new prop.

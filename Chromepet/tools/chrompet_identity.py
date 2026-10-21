@@ -137,11 +137,13 @@ TAMIL_FONTS = [
     "/System/Library/Fonts/Supplemental/Tamil Sangam MN.ttc",
     "/System/Library/Fonts/Supplemental/Tamil MN.ttc",
     "/System/Library/Fonts/SFIndia.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansTamil-Bold.ttf",
 ]
 DEVANAGARI_FONTS = [
     "/System/Library/Fonts/Supplemental/Devanagari Sangam MN.ttc",
     "/System/Library/Fonts/Supplemental/DevanagariMT.ttc",
     "/System/Library/Fonts/SFIndia.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf",
 ]
 
 
@@ -174,7 +176,10 @@ def text_plane(image, width, height):
         dtype=float,
     )
     faces = np.array([[0, 2, 1], [0, 3, 2], [0, 1, 2], [0, 2, 3]])
-    uv = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=float)
+    # u runs opposite to +x so a viewer in front of the plane sees the text
+    # unmirrored (same fix as the department frontage; the station boards read
+    # reversed with the old mapping, render-verified 2026-10-21).
+    uv = np.array([[1, 0], [0, 0], [0, 1], [1, 1]], dtype=float)
     mesh = trimesh.Trimesh(vertices, faces, process=False)
     mesh.visual = trimesh.visual.TextureVisuals(
         uv=uv,
