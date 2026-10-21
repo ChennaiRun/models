@@ -28,7 +28,6 @@ public static class ChromepetSync
         Copy("props/trees_colliders.json", Dst + "trees_colliders.json");
         Copy("data/v2_meta.json", Dst + "v2_meta.json");
         Copy("data/identity_meta.json", Dst + "identity_meta.json");
-        CopyPlayer("Baymax/baymax.glb", "Assets/Characters/Baymax/baymax.glb");
         var vikram = Path.Combine(PlayersRoot, "Vikram");
         if (Directory.Exists(vikram))
             foreach (var f in Directory.GetFiles(vikram, "*.fbx"))

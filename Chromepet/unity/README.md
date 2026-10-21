@@ -4,7 +4,6 @@ Open this folder (`Chromepet/unity`) in Unity Hub. Packages: glTFast (imports th
 2. **Spawn**: on the campus avenue (MIT Road), 12 m inside the Main Gate (OSM node 432468247, right after the MIT Flyover on the GST Road side), facing into campus. Position is read from the `Spawn_MainGate` marker inside `landmarks.glb`, so it is always consistent with the meshes.
 3. Controls: WASD, mouse, Space jump, Shift sprint, V toggle 1st/3rd person. No fly camera.
 4. Vikram: see [`../../players/Vikram/README.md`](../../players/Vikram/README.md). The supplied `Vikram.fbx` replaces the capsule when you build the scene; animation clips still need to be provided for locomotion.
-5. Baymax: see [`../../players/Baymax/README.md`](../../players/Baymax/README.md) for model setup and animation limits.
 
 **Orientation note:** the v1 OBJs (`../buildings/buildings.obj` etc.) used x=east, y=up, z=north (a left-handed frame); Unity's OBJ importer negates X, so v1 appeared **mirrored east-west** in Unity and the v1 spawn coordinate was off the road. v2 GLBs use standard glTF (x=east, y=up, z=-north) and were verified in Blender (glTF import → north = +Y); the builder no longer uses the OBJs.
 The source asset folders are authoritative. Do not commit the synced copies under `Assets/Models` or `Assets/Characters`. Scripts are not yet compiled/tested inside Unity.

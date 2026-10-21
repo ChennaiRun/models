@@ -119,4 +119,3 @@ InitTestScene*.unity*
 # Chromepet: synced copies of area meshes and player assets (sources live in models/players)
 Chromepet/unity/Assets/Models/
 Chromepet/unity/Assets/Characters/Vikram/
-Chromepet/unity/Assets/Characters/Baymax/
