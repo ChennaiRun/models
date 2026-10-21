@@ -1,0 +1,1012 @@
+{
+  "_about": {
+    "title": "Chromepet placement map -- single source of truth for asset positions",
+    "area": "Chromepet / MIT campus (Anna University), Chennai",
+    "version": 1,
+    "generated": "2026-10-21",
+    "origin_lat_lon": [
+      12.9487,
+      80.1394
+    ],
+    "frame": "ENU metres relative to the origin. position_enu = [east_m, north_m]. glTF (x, y, z) = (east, up, -north). Unity (x, y, z) = (east, up, north).",
+    "enu_to_lat_lon": "lat = origin_lat + degrees(north_m / 6378137); lon = origin_lon + degrees(east_m / (6378137 * cos(origin_lat))). lat_lon in each entry is computed with this formula.",
+    "heading_convention": "heading_deg = compass bearing (clockwise from north, 0-360) of the asset's local +Y axis (its generator-frame north) after placement. The ENU yaw applied when baking is yaw_deg = (-heading_deg) mod 360, CCW from east. For builder-placed assets the Unity rotation Y equals heading_deg mod 360 mapped to (-180, 180] (e.g. heading 303.71 -> rotation Y -56.29), because in the Unity frame a positive Y rotation turns the front (+Z, north) toward +X (east), i.e. it increases the bearing.",
+    "footprint_convention": "footprint_m = [width along local X, depth along local Y] in the asset's local frame (before heading rotation); height_m is the world up extent. For world-baked layers and unrotated anchors this equals the world AABB extent. production_technology_frontage's position is its builder anchor, not its centroid (see its notes).",
+    "source_values": "osm = OpenStreetMap geometry (data/osm_raw.osm, ODbL) | v2_meta = data/v2_meta.json / identity_meta.json anchors from the v2 build | roads_geometry = measured from roads/roads_v2.glb + campus_buildings.glb geometry | photo_relative = placed relative to neighbours from the user's campus photos (REFERENCE_VIDEOS.md)",
+    "confidence_values": "high = surveyed/recorded anchor or measured from shipped geometry | approximate = geometry-derived placement, not surveyed; expect metre-level error",
+    "status_values": "sited = placed by the 2026-10-21 siting pass | existing_anchor = placed by earlier work and recorded here",
+    "generated_from": "tools/mit_details.py logic + data/v2_meta.json + data/osm_raw.osm (OSM) + measured GLB bounds; assets sited by tools/oat_theatre.py, tools/avenue_garden_landmarks.py, tools/production_technology_frontage.py, tools/navy_aircraft.py, tools/connector_paths.py. Visual map: tools/placement_map_image.py reads this file only."
+  },
+  "road_network": [
+    {
+      "id": "mit_avenue",
+      "name": "MIT Road (campus avenue)",
+      "width_m": 7.5,
+      "osm": "ways named 'MIT Road'",
+      "polyline_enu": [
+        [
+          -84.2,
+          -275.3
+        ],
+        [
+          -77.7,
+          -263.2
+        ],
+        [
+          -64.8,
+          -244.3
+        ],
+        [
+          -55.4,
+          -229.3
+        ],
+        [
+          20.3,
+          -117.2
+        ],
+        [
+          44.5,
+          -81.4
+        ],
+        [
+          97.4,
+          0.5
+        ],
+        [
+          110.3,
+          20.7
+        ],
+        [
+          135.1,
+          58.8
+        ],
+        [
+          144.6,
+          73.7
+        ],
+        [
+          200.4,
+          157.4
+        ],
+        [
+          214.4,
+          178.2
+        ],
+        [
+          240.3,
+          211.4
+        ],
+        [
+          246.0,
+          217.9
+        ],
+        [
+          267.1,
+          245.9
+        ]
+      ]
+    },
+    {
+      "id": "rajam_hall_road",
+      "name": "Rajam Hall Road",
+      "width_m": 4.0,
+      "osm": "way 25907694",
+      "polyline_enu": [
+        [
+          44.5,
+          -81.4
+        ],
+        [
+          83.9,
+          -104.1
+        ],
+        [
+          117.5,
+          -124.8
+        ],
+        [
+          118.9,
+          -125.1
+        ],
+        [
+          120.2,
+          -125.0
+        ],
+        [
+          121.1,
+          -124.1
+        ],
+        [
+          137.3,
+          -101.7
+        ],
+        [
+          161.1,
+          -69.5
+        ],
+        [
+          174.5,
+          -51.4
+        ],
+        [
+          214.4,
+          0.7
+        ],
+        [
+          215.4,
+          2.0
+        ],
+        [
+          215.5,
+          3.4
+        ],
+        [
+          214.8,
+          4.8
+        ],
+        [
+          213.9,
+          5.7
+        ],
+        [
+          170.5,
+          32.0
+        ],
+        [
+          161.6,
+          38.2
+        ],
+        [
+          160.5,
+          39.0
+        ],
+        [
+          160.2,
+          39.7
+        ],
+        [
+          160.1,
+          41.0
+        ]
+      ]
+    },
+    {
+      "id": "service_west",
+      "name": "West service road",
+      "width_m": 4.0,
+      "osm": "way 23092151",
+      "polyline_enu": [
+        [
+          -55.4,
+          -229.3
+        ],
+        [
+          -60.7,
+          -212.0
+        ],
+        [
+          -62.6,
+          -187.8
+        ],
+        [
+          -55.1,
+          -163.6
+        ],
+        [
+          -70.0,
+          -141.2
+        ],
+        [
+          -65.4,
+          -95.6
+        ],
+        [
+          -58.8,
+          -75.8
+        ],
+        [
+          -29.3,
+          -33.1
+        ],
+        [
+          34.7,
+          73.2
+        ]
+      ]
+    },
+    {
+      "id": "service_grove",
+      "name": "Grove service road",
+      "width_m": 4.0,
+      "osm": "way 23092148",
+      "polyline_enu": [
+        [
+          170.5,
+          32.0
+        ],
+        [
+          133.8,
+          -25.6
+        ],
+        [
+          83.9,
+          -104.1
+        ],
+        [
+          61.6,
+          -136.5
+        ],
+        [
+          60.3,
+          -137.9
+        ],
+        [
+          58.6,
+          -138.3
+        ],
+        [
+          56.5,
+          -137.8
+        ],
+        [
+          20.3,
+          -117.2
+        ]
+      ]
+    },
+    {
+      "id": "service_aero",
+      "name": "Aero service road",
+      "width_m": 4.0,
+      "osm": "way 23092149",
+      "polyline_enu": [
+        [
+          174.5,
+          -51.4
+        ],
+        [
+          133.8,
+          -25.6
+        ],
+        [
+          97.4,
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": "service_prodtech",
+      "name": "North-east service road",
+      "width_m": 4.0,
+      "osm": "way 1434524589",
+      "polyline_enu": [
+        [
+          200.4,
+          157.4
+        ],
+        [
+          225.5,
+          138.4
+        ],
+        [
+          160.1,
+          41.0
+        ]
+      ]
+    },
+    {
+      "id": "service_north",
+      "name": "North service road",
+      "width_m": 4.0,
+      "osm": "way 23092383",
+      "polyline_enu": [
+        [
+          204.2,
+          325.4
+        ],
+        [
+          208.4,
+          322.5
+        ],
+        [
+          132.9,
+          210.6
+        ],
+        [
+          34.7,
+          73.2
+        ],
+        [
+          90.0,
+          34.2
+        ],
+        [
+          110.3,
+          20.7
+        ]
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "id": "ground_layer",
+      "name": "Ground layer (campus + outside ground, avenue paving)",
+      "glb": "ground/ground_v2.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        2600.0,
+        2800.0
+      ],
+      "height_m": 0.12,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked v2 layer spanning the full OSM bbox; campus ground polygon per tools/mit_details.py."
+    },
+    {
+      "id": "roads_layer",
+      "name": "Roads layer (GST Road, MIT Flyover, railway, station, campus roads)",
+      "glb": "roads/roads_v2.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        2600.0,
+        2800.0
+      ],
+      "height_m": 9.4,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked v2 layer. Campus road centrelines are listed in road_network."
+    },
+    {
+      "id": "campus_buildings_layer",
+      "name": "Campus buildings layer (60 procedural MIT buildings)",
+      "glb": "buildings/campus_buildings.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        511.5,
+        733.9
+      ],
+      "height_m": 19.9,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked; footprint/height are the layer's world AABB. Includes the Production Technology node box and Admin Block (separate anchor entries)."
+    },
+    {
+      "id": "outside_buildings_layer",
+      "name": "Outside buildings layer (8,732 surrounding buildings)",
+      "glb": "buildings/outside_buildings.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        2600.0,
+        2800.0
+      ],
+      "height_m": 21.0,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked v2 layer spanning the full OSM bbox; footprint is the nominal bbox extent."
+    },
+    {
+      "id": "landmarks_layer",
+      "name": "Landmarks layer (gate, fountain, tank, walkway, grove aircraft, spawn markers)",
+      "glb": "props/landmarks.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        560.0,
+        740.0
+      ],
+      "height_m": 27.0,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked; individual anchors (Main Gate, Rajam statue arch, fountain, aircraft grove) have their own entries."
+    },
+    {
+      "id": "trees_layer",
+      "name": "Trees layer (2,510 trees)",
+      "glb": "props/trees.glb",
+      "type": "area_layer",
+      "position_enu": [
+        0.0,
+        0.0
+      ],
+      "lat_lon": [
+        12.9487,
+        80.1394
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        2600.0,
+        2800.0
+      ],
+      "height_m": 12.0,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [],
+      "status": "existing_anchor",
+      "notes": "World-baked; trunk colliders in props/trees_colliders.json. Trees are procedural filler and were not treated as siting obstacles."
+    },
+    {
+      "id": "chrompet_identity",
+      "name": "Chrompet identity layer (station boards, office, EMU, auto-rickshaws)",
+      "glb": "props/chrompet_identity.glb",
+      "type": "prop",
+      "position_enu": [
+        156.52,
+        328.51
+      ],
+      "lat_lon": [
+        12.951651,
+        80.140843
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        366.0,
+        636.0
+      ],
+      "height_m": 6.0,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [
+        "roads_layer"
+      ],
+      "status": "existing_anchor",
+      "notes": "World-baked; position is the suburban EMU centre from data/identity_meta.json (rail yaw 73.5 deg ENU); footprint spans the layer's station-area features."
+    },
+    {
+      "id": "main_gate",
+      "name": "Main Gate (MIT South Gate)",
+      "glb": "props/landmarks.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        -77.67,
+        -263.19
+      ],
+      "lat_lon": [
+        12.946336,
+        80.138684
+      ],
+      "heading_deg": 34.3,
+      "footprint_m": [
+        17.5,
+        2.2
+      ],
+      "height_m": 8.4,
+      "source": "osm",
+      "confidence": "high",
+      "connects_to": [
+        "roads_layer",
+        "mit_letters"
+      ],
+      "status": "existing_anchor",
+      "notes": "Node group 'Main_Gate' inside landmarks.glb at OSM node 432468247. heading_deg is the avenue bearing at the gate from data/v2_meta.json; the structure spans the avenue, local +Y taken along the avenue. Player spawn is 12 m inside the gate at ENU (-70.91, -253.28)."
+    },
+    {
+      "id": "admin_block",
+      "name": "Admin Block & Dean Office (procedural)",
+      "glb": "buildings/campus_buildings.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        25.3,
+        -74.3
+      ],
+      "lat_lon": [
+        12.948033,
+        80.139633
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        28.0,
+        18.0
+      ],
+      "height_m": 14.0,
+      "source": "osm",
+      "confidence": "high",
+      "connects_to": [
+        "pergola",
+        "gazebo"
+      ],
+      "status": "existing_anchor",
+      "notes": "Node group in campus_buildings.glb; OSM node 5964208543, no-footprint procedural box measured in the GLB (x 11.3-39.3, north -83.3 to -65.3)."
+    },
+    {
+      "id": "charles_babbage_block",
+      "name": "Charles Babbage Block (detailed)",
+      "glb": "buildings/detailed/ct_charles_babbage.glb",
+      "type": "detailed_building",
+      "position_enu": [
+        249.5,
+        168.2
+      ],
+      "lat_lon": [
+        12.950211,
+        80.1417
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        42.9,
+        31.8
+      ],
+      "height_m": 8.8,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [
+        "campus_buildings_layer"
+      ],
+      "status": "existing_anchor",
+      "notes": "World-baked detailed replacement; position/footprint describe the main block (matching the 'Charles_Babbage_Block' node measured in campus_buildings.glb: x 228.0-270.9, north 152.3-184.1). The detailed GLB's full bounds span 101.0 x 152.5 m because it also carries forecourt/road context geometry. Scene builder hides the procedural node."
+    },
+    {
+      "id": "rajam_statue_arch",
+      "name": "Rajam statue arch + pool (landmarks layer)",
+      "glb": "props/landmarks.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        217.6,
+        0.5
+      ],
+      "lat_lon": [
+        12.948704,
+        80.141406
+      ],
+      "heading_deg": 303.0,
+      "footprint_m": [
+        8.0,
+        5.0
+      ],
+      "height_m": 6.3,
+      "source": "osm",
+      "confidence": "high",
+      "connects_to": [
+        "golden_statue_garden",
+        "connector_statue"
+      ],
+      "status": "existing_anchor",
+      "notes": "Node group 'Rajam_statue' inside landmarks.glb at OSM node 582775241; heading approximate from mit_details.facing(). The detailed golden statue garden stands 7.6 m north-east (separate entry)."
+    },
+    {
+      "id": "avenue_fountain",
+      "name": "Avenue fountain + Anna University sign",
+      "glb": "props/landmarks.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        -28.2,
+        -163.9
+      ],
+      "lat_lon": [
+        12.947228,
+        80.13914
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        11.4,
+        11.4
+      ],
+      "height_m": 1.9,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [
+        "roads_layer"
+      ],
+      "status": "existing_anchor",
+      "notes": "From data/v2_meta.json (fountain_enu); on the west side of the avenue, ~110 m inside the Main Gate."
+    },
+    {
+      "id": "aircraft_grove",
+      "name": "Aircraft display grove (Sea Hawk, Gnat, jet engines)",
+      "glb": "props/landmarks.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        142.6,
+        -10.2
+      ],
+      "lat_lon": [
+        12.948608,
+        80.140714
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        36.0,
+        28.0
+      ],
+      "height_m": 5.0,
+      "source": "v2_meta",
+      "confidence": "high",
+      "connects_to": [
+        "navy_aircraft_display",
+        "connector_grove"
+      ],
+      "status": "existing_anchor",
+      "notes": "From data/v2_meta.json (aircraft_grove_enu); crude aircraft in landmarks.glb beside the Aero department. The detailed Navy display is a separate entry."
+    },
+    {
+      "id": "open_air_theatre",
+      "name": "Open Air Theatre (OAT)",
+      "glb": "props/open_air_theatre.glb",
+      "type": "prop",
+      "position_enu": [
+        -26.0,
+        -116.0
+      ],
+      "lat_lon": [
+        12.947658,
+        80.13916
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        63.0,
+        63.2
+      ],
+      "height_m": 4.86,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "connector_oat",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "World-baked (site in the GLB). West of the main avenue; terraces north/east/west, entrance + sign south. Site chosen as the only clear 63 m circle on campus ground between the avenue and the west service road; no OSM node exists for the OAT."
+    },
+    {
+      "id": "mit_letters",
+      "name": "MIT letters monument",
+      "glb": "props/mit_letters.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        -50.1,
+        -245.7
+      ],
+      "lat_lon": [
+        12.946493,
+        80.138938
+      ],
+      "heading_deg": 304.27,
+      "footprint_m": [
+        13.2,
+        3.7
+      ],
+      "height_m": 3.38,
+      "source": "osm",
+      "confidence": "approximate",
+      "connects_to": [
+        "connector_letters",
+        "main_gate"
+      ],
+      "status": "sited",
+      "notes": "World-baked. Avenue lawn inside the Main Gate, east side; long axis aligned to the avenue direction at the gate (yaw 55.73 deg ENU). Split out of the former avenue_garden_landmarks.glb on 2026-10-21."
+    },
+    {
+      "id": "golden_statue_garden",
+      "name": "Golden statue garden (C. Rajam)",
+      "glb": "props/golden_statue_garden.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        224.0,
+        10.0
+      ],
+      "lat_lon": [
+        12.94879,
+        80.141465
+      ],
+      "heading_deg": 34.0,
+      "footprint_m": [
+        6.8,
+        10.5
+      ],
+      "height_m": 3.54,
+      "source": "osm",
+      "confidence": "approximate",
+      "connects_to": [
+        "connector_statue",
+        "rajam_statue_arch"
+      ],
+      "status": "sited",
+      "notes": "World-baked. 7.6 m north-east of the OSM Rajam Statue node, offset to clear Rajam Hall and the Rajam Hall Road bend; front (local -Y: benches/emblem side) faces the road bend. Paved spur leaves the pad toward the road. Does not replace rajam_statue_arch."
+    },
+    {
+      "id": "pergola",
+      "name": "Garden pergola",
+      "glb": "props/pergola.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        -18.0,
+        -80.0
+      ],
+      "lat_lon": [
+        12.947981,
+        80.139234
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        8.8,
+        4.6
+      ],
+      "height_m": 3.53,
+      "source": "photo_relative",
+      "confidence": "approximate",
+      "connects_to": [
+        "gazebo",
+        "admin_block"
+      ],
+      "status": "sited",
+      "notes": "World-baked. Admin Block lawn garden (photo 18.jpg), west of the Admin Block, east of the west service road."
+    },
+    {
+      "id": "gazebo",
+      "name": "Garden gazebo",
+      "glb": "props/gazebo.glb",
+      "type": "landmark_group",
+      "position_enu": [
+        -36.0,
+        -64.0
+      ],
+      "lat_lon": [
+        12.948125,
+        80.139068
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        8.7,
+        7.2
+      ],
+      "height_m": 5.03,
+      "source": "photo_relative",
+      "confidence": "approximate",
+      "connects_to": [
+        "pergola",
+        "admin_block"
+      ],
+      "status": "sited",
+      "notes": "World-baked. Same Admin-side garden as the pergola, ~27 m north-west of it (photo 18.jpg)."
+    },
+    {
+      "id": "production_technology_frontage",
+      "name": "Department of Production Technology frontage (detailed)",
+      "glb": "buildings/detailed/production_technology_frontage.glb",
+      "type": "detailed_building",
+      "position_enu": [
+        170.42,
+        75.39
+      ],
+      "lat_lon": [
+        12.949377,
+        80.140971
+      ],
+      "heading_deg": 303.71,
+      "footprint_m": [
+        26.5,
+        6.9
+      ],
+      "height_m": 7.18,
+      "source": "osm",
+      "confidence": "approximate",
+      "connects_to": [
+        "connector_prodtech",
+        "campus_buildings_layer"
+      ],
+      "status": "sited",
+      "notes": "Origin-centred GLB; position_enu is the BUILDER ANCHOR (facade centre on the back-wall plane), not the footprint centroid. ChrompetSceneBuilder.Placements: position (170.42, 0, 75.39), rotation Y -56.29 deg. Additive overlay in front of the procedural node box (OSM node 432468201, ENU (184.2, 66.2)); the procedural building is NOT hidden."
+    },
+    {
+      "id": "navy_aircraft_display",
+      "name": "Indian Navy aircraft display",
+      "glb": "props/navy_aircraft_display.glb",
+      "type": "prop",
+      "position_enu": [
+        154.0,
+        -26.0
+      ],
+      "lat_lon": [
+        12.948466,
+        80.14082
+      ],
+      "heading_deg": 328.49,
+      "footprint_m": [
+        22.0,
+        26.9
+      ],
+      "height_m": 5.24,
+      "source": "v2_meta",
+      "confidence": "approximate",
+      "connects_to": [
+        "aircraft_grove",
+        "connector_grove"
+      ],
+      "status": "sited",
+      "notes": "World-baked; position (aircraft centre) kept from the original siting -- roads geometry confirmed it is road-adjacent. heading_deg is the bearing of the local +Y (port side); nose bearing is 58.5 deg (yaw 0.55 rad ENU). Apron + path pad to the grove centre added 2026-10-21; footprint includes the pad."
+    },
+    {
+      "id": "connector_oat",
+      "name": "Connector path: avenue to OAT entrance",
+      "glb": "props/connector_paths.glb",
+      "type": "connector",
+      "position_enu": [
+        -19.0,
+        -143.8
+      ],
+      "lat_lon": [
+        12.947408,
+        80.139225
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        32.1,
+        2.4
+      ],
+      "height_m": 0.07,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "open_air_theatre",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "Polyline (-4.96,-144.0) -> (-26.0,-149.0) -> (-26.0,-138.5): avenue west paving edge around the south side to the OAT entrance slab."
+    },
+    {
+      "id": "connector_letters",
+      "name": "Connector path: avenue to MIT letters",
+      "glb": "props/connector_paths.glb",
+      "type": "connector",
+      "position_enu": [
+        -53.8,
+        -243.3
+      ],
+      "lat_lon": [
+        12.946514,
+        80.138904
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        5.8,
+        2.2
+      ],
+      "height_m": 0.07,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "mit_letters",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "Polyline (-56.27,-241.82) -> (-51.4,-244.8): avenue east paving edge to the letters plinth."
+    },
+    {
+      "id": "connector_statue",
+      "name": "Connector path: Rajam Hall Road to statue garden",
+      "glb": "props/connector_paths.glb",
+      "type": "connector",
+      "position_enu": [
+        218.4,
+        5.0
+      ],
+      "lat_lon": [
+        12.948745,
+        80.141413
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        3.7,
+        2.2
+      ],
+      "height_m": 0.07,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "golden_statue_garden",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "Polyline (216.75,5.88) -> (220.0,4.1): Rajam Hall Road edge to the end of the statue garden's paved spur."
+    },
+    {
+      "id": "connector_prodtech",
+      "name": "Connector path: avenue to Production Technology porch",
+      "glb": "props/connector_paths.glb",
+      "type": "connector",
+      "position_enu": [
+        161.9,
+        81.1
+      ],
+      "lat_lon": [
+        12.949429,
+        80.140892
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        8.8,
+        2.2
+      ],
+      "height_m": 0.07,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "production_technology_frontage",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "Polyline (158.3,83.5) -> (165.59,78.61): avenue east paving edge to the frontage porch front."
+    },
+    {
+      "id": "connector_grove",
+      "name": "Connector paths: service roads to aircraft grove / Navy plinth",
+      "glb": "props/connector_paths.glb",
+      "type": "connector",
+      "position_enu": [
+        145.0,
+        -21.0
+      ],
+      "lat_lon": [
+        12.948511,
+        80.140737
+      ],
+      "heading_deg": 0.0,
+      "footprint_m": [
+        9.2,
+        2.2
+      ],
+      "height_m": 0.07,
+      "source": "roads_geometry",
+      "confidence": "approximate",
+      "connects_to": [
+        "navy_aircraft_display",
+        "aircraft_grove",
+        "roads_layer"
+      ],
+      "status": "sited",
+      "notes": "Two links in connector_paths.glb: (141.5,-9.5) -> (143.4,-10.6) joins the grove service road (OSM 23092148) to the grove centre / Navy apron end; (148.4,-33.8) -> (148.5,-32.2) joins the Aero service road (OSM 23092149) to the Navy plinth south edge. footprint is the pair's combined world extent [9.2, 26.5]."
+    }
+  ]
+}

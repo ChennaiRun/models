@@ -15,7 +15,10 @@ public static class ChromepetSync
     public static readonly string[] Glbs = {
         "ground/ground_v2.glb", "roads/roads_v2.glb", "buildings/campus_buildings.glb",
         "buildings/outside_buildings.glb", "props/landmarks.glb", "props/chrompet_identity.glb",
-        "props/navy_aircraft_display.glb", "props/trees.glb" };
+        "props/navy_aircraft_display.glb", "props/trees.glb",
+        // World-positioned additive props sited 2026-10-21 (see data/placement_map.json).
+        "props/open_air_theatre.glb", "props/mit_letters.glb", "props/golden_statue_garden.glb",
+        "props/pergola.glb", "props/gazebo.glb", "props/connector_paths.glb" };
 
     [MenuItem("Chrompet/Sync Area Assets")]
     public static void Sync()
@@ -29,6 +32,11 @@ public static class ChromepetSync
         Copy("data/v2_meta.json", Dst + "v2_meta.json");
         Copy("data/identity_meta.json", Dst + "identity_meta.json");
         Copy("data/navy_aircraft_meta.json", Dst + "navy_aircraft_meta.json");
+        Copy("data/oat_meta.json", Dst + "oat_meta.json");
+        Copy("data/garden_landmarks_meta.json", Dst + "garden_landmarks_meta.json");
+        Copy("data/production_frontage_meta.json", Dst + "production_frontage_meta.json");
+        Copy("data/connector_paths_meta.json", Dst + "connector_paths_meta.json");
+        Copy("data/placement_map.json", Dst + "placement_map.json");
         var vikram = Path.Combine(PlayersRoot, "Vikram");
         if (Directory.Exists(vikram))
             foreach (var f in Directory.GetFiles(vikram, "*.fbx"))

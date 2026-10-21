@@ -1,34 +1,41 @@
-"""Avenue / garden landmark set for MIT Chromepet -- one additive props GLB.
+"""Avenue / garden landmark set for MIT Chromepet -- additive props.
 
 References: user's own campus photos (Mar 2019, Drive folder 'mit',
 shared 2026-10-20; see ../REFERENCE_VIDEOS.md). Observation only:
 no photo pixels are shipped and no identifiable people are modelled.
 
-Items (each is a named node group with its own local centre, listed in
-data/garden_landmarks_meta.json so the integrator can site them
-individually; the GLB itself is ORIGIN-CENTRED as a set):
+Since 2026-10-21 each item is exported as its OWN world-positioned GLB
+(the combined avenue_garden_landmarks.glb was retired), sited from the
+model's road/campus geometry (roads_v2.glb + data/osm_raw.osm):
 
-* MIT_letters (photo 11.jpg) -- large black 3D letters M I T. The photo
-  shows them standing on the avenue lawn; a low dark stone slab is used
-  here as a mounting plinth.
-* Golden_statue_garden (photo 13.jpg; glimpsed again at the end of the
-  road in 16.jpg) -- golden standing figure on a bright-blue stepped
-  pedestal, with white globe lamp posts, green benches and a low blue
-  railing. This is a detailed additive version of the crude statue
-  approximations in props/landmarks.glb, which is NOT edited.
-* Pergola_and_gazebo (photo 18.jpg) -- red-brick pergola (brick piers,
-  white/red concrete beams) and a round gazebo: raised circular
-  platform, central pole, conical tiled roof, circular bench ring,
-  black lantern lamp posts. (The same gazebo type appears in
-  mit_details.py as 'Pink_bench' by Applied Sciences; this is a
-  standalone detailed garden version.)
+* MIT_letters (photo 11.jpg) -> props/mit_letters.glb -- large black 3D
+  letters M I T on a stone plinth with concrete edging. Sited on the
+  avenue lawn inside the Main Gate at ENU (-50.1, -245.7), rotated to
+  the avenue direction at the gate (yaw 55.73 deg, heading 304.27).
+* Golden_statue_garden (photos 13.jpg, 16.jpg) ->
+  props/golden_statue_garden.glb -- golden standing figure (C. Rajam)
+  on a bright-blue stepped pedestal, globe lamps, benches, railing and
+  a paved path spur. Sited at ENU (224.0, 10.0), 7.6 m north-east of
+  the OSM Rajam Statue node (582775241), clear of Rajam Hall and Rajam
+  Hall Road, facing the road bend (yaw -34 deg, heading 34). This is a
+  detailed companion to the crude statue arch in props/landmarks.glb,
+  which is NOT edited or replaced.
+* Pergola (photo 18.jpg) -> props/pergola.glb -- red-brick pergola.
+  Sited on the Admin Block lawn at ENU (-18.0, -80.0), heading 0.
+* Gazebo (photo 18.jpg) -> props/gazebo.glb -- round gazebo: raised
+  circular platform, central pole, conical tiled roof, circular bench
+  ring, lantern lamp posts. Sited at ENU (-36.0, -64.0), heading 0,
+  in the same Admin-side garden as the pergola.
 
-Placement: APPROXIMATE / unsited as a set. Suggested sitings are in
-data/garden_landmarks_meta.json.
+All sites are APPROXIMATE (geometry-derived, not surveyed) and are
+registered in data/placement_map.json. Paved connectors in
+props/connector_paths.glb link the letters and the statue garden to
+the road network.
 
 Run from Chromepet/:  python3 tools/avenue_garden_landmarks.py
 Dependencies: trimesh, numpy, pillow
-Output: props/avenue_garden_landmarks.glb + data/garden_landmarks_meta.json
+Output: props/mit_letters.glb, props/golden_statue_garden.glb,
+        props/pergola.glb, props/gazebo.glb + data/garden_landmarks_meta.json
 """
 
 import json
@@ -119,14 +126,21 @@ class SceneLayer:
     def add(self, mesh, color, name):
         self.parts.append((name, mesh, COLORS[color] if isinstance(color, str) else color))
 
-    def export(self, path):
+    def export(self, path, yaw_deg=0.0, site_enu=(0.0, 0.0)):
+        """Export with the world site baked in: rotate by yaw (ENU, CCW
+        from east, about the local origin) then translate to site_enu."""
         scene = trimesh.Scene()
         enu_to_gltf = np.array(
             [[1, 0, 0, 0], [0, 0, 1, 0], [0, -1, 0, 0], [0, 0, 0, 1]], dtype=float
         )
+        yaw = trimesh.transformations.rotation_matrix(math.radians(yaw_deg), [0, 0, 1])
         for index, (name, mesh, color) in enumerate(self.parts):
             mesh = mesh.copy()
             mesh.visual = trimesh.visual.TextureVisuals(material=material(color, f"{name}_material"))
+            mesh.apply_transform(yaw)
+            # Translate in ENU before the axis transform: ENU (tx, ty)
+            # becomes glTF (tx, 0, -ty) through enu_to_gltf.
+            mesh.apply_translation([site_enu[0], site_enu[1], 0.0])
             mesh.apply_transform(enu_to_gltf)
             scene.add_geometry(mesh, geom_name=f"{name}__{index}", node_name=f"{name}__{index}")
         scene.export(path)
@@ -138,6 +152,11 @@ def add_mit_letters(layer, cx, cy):
     # Low polished-stone slab plinth (photo: letters on the lawn).
     layer.add(box(cx, cy, 11.6, 2.4, 0.28, 0.0, 0.0), "stone_dark", name)
     layer.add(box(cx, cy, 12.4, 3.2, 0.10, 0.0, 0.0), "concrete", name)
+    # Concrete edging frame around the plinth (keeps the lawn edge tidy).
+    for dy in (-1.72, 1.72):
+        layer.add(box(cx, cy + dy, 12.9, 0.22, 0.18, 0.0, 0.0), "concrete", name)
+    for dx in (-6.5, 6.5):
+        layer.add(box(cx + dx, cy, 0.22, 3.66, 0.18, 0.0, 0.0), "concrete", name)
     depth, z0 = 0.55, 0.28
     def post(x, w, h):
         layer.add(box(cx + x, cy, w, depth, h, 0.0, z0), "letter_black", name)
@@ -200,6 +219,9 @@ def add_golden_statue(layer, cx, cy):
         layer.add(box(cx, cy + s * 3.35, 6.4, 0.08, 0.09, 0.0, 0.85), "pedestal_blue", name)
         for dx in (-3.0, -1.0, 1.0, 3.0):
             layer.add(cylinder(cx + dx, cy + s * 3.35, 0.035, 0.9, 0.0, 6), "pedestal_blue_dark", name)
+    # Paved path spur leaving the garden pad on the front (-y) side;
+    # props/connector_paths.glb continues it to Rajam Hall Road.
+    layer.add(box(cx, cy - 5.2, 2.4, 3.8, 0.07, 0.0, 0.0), "concrete", name)
 
 
 # ---------------------------------------------------------------- pergola + gazebo
@@ -233,41 +255,72 @@ def add_gazebo(layer, cx, cy):
         layer.add(sphere(x, y, 2.82, 0.13, 1), "lamp", name)
 
 
-def main():
-    layer = SceneLayer()
-    centres = {
-        "MIT_letters": [0.0, 0.0],
-        "Golden_statue_garden": [17.0, 7.0],
-        "Pergola": [-13.0, 11.0],
-        "Gazebo": [-23.5, 3.0],
-    }
-    add_mit_letters(layer, *centres["MIT_letters"])
-    add_golden_statue(layer, *centres["Golden_statue_garden"])
-    add_pergola(layer, *centres["Pergola"])
-    add_gazebo(layer, *centres["Gazebo"])
-    # Shared lawn pad under the set (local arrangement only).
-    layer.add(box(-3.0, 5.0, 52.0, 24.0, 0.04, 0.0, -0.05), "grass", "Garden_lawn")
-
-    out_path = os.path.join(ROOT, "props", "avenue_garden_landmarks.glb")
-    layer.export(out_path)
-
-    loaded = trimesh.load(out_path)
+def glb_stats(path):
+    loaded = trimesh.load(path)
     geometries = list(loaded.geometry.values())
+    return {
+        "geometries": len(geometries),
+        "vertices": int(sum(len(g.vertices) for g in geometries)),
+        "faces": int(sum(len(g.faces) for g in geometries)),
+        "bounds_gltf": [[round(float(v), 2) for v in row] for row in loaded.bounds.tolist()],
+    }
+
+
+# World sites (ENU) + ENU yaw per group; heading_deg = bearing of the
+# group's local +Y axis = (-yaw) mod 360. See data/placement_map.json.
+SITES = {
+    "mit_letters": {"file": "mit_letters.glb", "site_enu": [-50.1, -245.7], "yaw_deg": 55.73,
+                    "build": add_mit_letters},
+    "golden_statue_garden": {"file": "golden_statue_garden.glb", "site_enu": [224.0, 10.0], "yaw_deg": -34.0,
+                             "build": add_golden_statue},
+    "pergola": {"file": "pergola.glb", "site_enu": [-18.0, -80.0], "yaw_deg": 0.0,
+                "build": add_pergola},
+    "gazebo": {"file": "gazebo.glb", "site_enu": [-36.0, -64.0], "yaw_deg": 0.0,
+               "build": add_gazebo},
+}
+
+
+def main():
+    stats = {}
+    for key, spec in SITES.items():
+        layer = SceneLayer()
+        spec["build"](layer, 0.0, 0.0)
+        out_path = os.path.join(ROOT, "props", spec["file"])
+        layer.export(out_path, yaw_deg=spec["yaw_deg"], site_enu=tuple(spec["site_enu"]))
+        stats[key] = glb_stats(out_path)
+
     meta = {
-        "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at the MIT letters; item centres below are local ENU (x=east, y=north)",
-        "placement": "APPROXIMATE / unsited as a set; site each named group individually (suggested: letters on the avenue lawn inside the Main Gate, statue in its garden at the end of the internal road in photo 16.jpg, pergola/gazebo in the garden by the Admin/Library lawns in photo 18.jpg)",
+        "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; each GLB is WORLD-POSITIONED (site + yaw baked in)",
+        "placement": "SITED per group (approximate, sources: osm + roads_geometry + photo_relative). The combined avenue_garden_landmarks.glb was split on 2026-10-21 so each group carries its own world transform; registry: data/placement_map.json.",
         "provenance": "User's own photos 11.jpg, 13.jpg, 16.jpg, 18.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
         "generator": "tools/avenue_garden_landmarks.py",
-        "output": "props/avenue_garden_landmarks.glb",
-        "item_centres_local_enu": centres,
-        "contents": {"mit_letters": 1, "golden_statue_garden": 1, "pergola": 1, "gazebo": 1},
-        "glb_stats": {
-            "geometries": len(geometries),
-            "vertices": int(sum(len(g.vertices) for g in geometries)),
-            "faces": int(sum(len(g.faces) for g in geometries)),
-            "bounds_gltf": [[round(float(v), 2) for v in row] for row in loaded.bounds.tolist()],
+        "outputs": {
+            "mit_letters": {
+                "glb": "props/mit_letters.glb", "site_enu": SITES["mit_letters"]["site_enu"],
+                "yaw_deg": SITES["mit_letters"]["yaw_deg"], "heading_deg": 304.27,
+                "site_note": "Avenue lawn inside the Main Gate, east side, ~30 m inside the gate on the avenue axis; long axis aligned to the avenue direction at the gate (OSM node 432468247 geometry). Plinth gained a concrete edging frame.",
+                "glb_stats": stats["mit_letters"],
+            },
+            "golden_statue_garden": {
+                "glb": "props/golden_statue_garden.glb", "site_enu": SITES["golden_statue_garden"]["site_enu"],
+                "yaw_deg": SITES["golden_statue_garden"]["yaw_deg"], "heading_deg": 34.0,
+                "site_note": "7.6 m north-east of the OSM Rajam Statue node (582775241), offset to clear Rajam Hall (west edge x=214) and the Rajam Hall Road bend; front faces the road bend/statue node. A paved spur leaves the pad toward the road, continued by props/connector_paths.glb. Does NOT replace the statue arch in props/landmarks.glb.",
+                "glb_stats": stats["golden_statue_garden"],
+            },
+            "pergola": {
+                "glb": "props/pergola.glb", "site_enu": SITES["pergola"]["site_enu"],
+                "yaw_deg": 0.0, "heading_deg": 0.0,
+                "site_note": "Admin Block lawn garden, west of the Admin Block node box, east of the west service road (photo 18.jpg garden).",
+                "glb_stats": stats["pergola"],
+            },
+            "gazebo": {
+                "glb": "props/gazebo.glb", "site_enu": SITES["gazebo"]["site_enu"],
+                "yaw_deg": 0.0, "heading_deg": 0.0,
+                "site_note": "Same Admin-side garden as the pergola, ~27 m north-west of it (photo 18.jpg).",
+                "glb_stats": stats["gazebo"],
+            },
         },
-        "integration": "Outstanding: site each group, then add 'props/avenue_garden_landmarks.glb' to ChromepetSync.Glbs (or split per group). Detailed statue does not replace props/landmarks.glb.",
+        "integration": "All four GLBs are registered in ChromepetSync.Glbs (world-positioned). The retired combined file props/avenue_garden_landmarks.glb was removed from the repo and from the sync list.",
     }
     with open(os.path.join(ROOT, "data", "garden_landmarks_meta.json"), "w", encoding="utf-8") as handle:
         json.dump(meta, handle, indent=2, ensure_ascii=False)

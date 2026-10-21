@@ -16,7 +16,9 @@ Requires `pip install trimesh pillow numpy`. Run from `Chromepet/`: `python3 too
 
 Standalone trimesh generators from the user's own MIT campus photos (Drive folder 'mit'; full catalogue in `../REFERENCE_VIDEOS.md`). Like the identity layer they need no OSM/LFS input: `pip install trimesh numpy pillow`, run from `Chromepet/` as `python3 tools/<name>.py`. Each writes one additive GLB plus a metadata JSON in `../data/`.
 
-* `oat_theatre.py` -> `../props/open_air_theatre.glb` + `oat_meta.json` (origin-centred)
-* `avenue_garden_landmarks.py` -> `../props/avenue_garden_landmarks.glb` + `garden_landmarks_meta.json` (origin-centred set)
-* `production_technology_frontage.py` -> `../buildings/detailed/production_technology_frontage.glb` + `production_frontage_meta.json` (origin-centred)
+* `oat_theatre.py` -> `../props/open_air_theatre.glb` + `oat_meta.json` (world-positioned, sited 2026-10-21)
+* `avenue_garden_landmarks.py` -> `../props/mit_letters.glb`, `../props/golden_statue_garden.glb`, `../props/pergola.glb`, `../props/gazebo.glb` + `garden_landmarks_meta.json` (four world-positioned GLBs, split + sited 2026-10-21; the combined GLB was retired)
+* `production_technology_frontage.py` -> `../buildings/detailed/production_technology_frontage.glb` + `production_frontage_meta.json` (origin-centred; placed by a ChrompetSceneBuilder placement entry)
 * `navy_aircraft.py` -> `../props/navy_aircraft_display.glb` + `navy_aircraft_meta.json` (world-positioned, registered in ChromepetSync)
+* `connector_paths.py` -> `../props/connector_paths.glb` + `connector_paths_meta.json` (world-positioned paved links from the sited props to the road network)
+* `placement_map_image.py` -> `../data/placement_map.png` (top-down visual map generated from `../data/placement_map.json` only; run after registry changes)

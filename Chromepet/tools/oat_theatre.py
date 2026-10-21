@@ -13,15 +13,17 @@ side by curved brick-red stepped terraces, a low central circular stage
 area, black lamp posts around the plaza and a yellow OPEN AIR THEATRE
 sign board. People in the photo are not modelled.
 
-Placement: ORIGIN-CENTRED (local frame, metres, x=east, y=north, z=up
-before the glTF export transform; exported glTF is x=east, y=up,
-z=-north). The theatre's surveyed ENU position is not available in this
-repo (no OSM node for the OAT is recorded in mit_details.py), so the
-integrator must site this root node on the open ground west of the main
-avenue before adding it to the Unity sync list -- see
-data/oat_meta.json ("placement": "APPROXIMATE / unsited").
-Terraces wrap the north/east/west side; the south side is the entrance
-opening with the sign board.
+Placement: WORLD-POSITIONED (baked at export). The theatre's surveyed
+ENU position is not recorded in OSM (no OAT node exists), so the site
+was chosen from the model's own road/campus geometry (roads_v2.glb +
+data/osm_raw.osm analysis, 2026-10-21): the only clear 63 m circle on
+campus ground west of the main avenue, between the avenue and the west
+service road, north of the avenue fountain. Centre ENU (-26.0, -116.0),
+heading 0 (local north = world north; terraces wrap north/east/west,
+entrance opening + sign on the south side, facing the gate). A paved
+connector (props/connector_paths.glb) links the avenue's west edge to
+the entrance. Recorded in data/placement_map.json (id open_air_theatre).
+See data/oat_meta.json for the placement record.
 
 Run from Chromepet/:  python3 tools/oat_theatre.py
 Dependencies: trimesh, numpy, pillow
@@ -93,19 +95,24 @@ class SceneLayer:
     def add_textured(self, mesh, name):
         self.textured.append((name, mesh))
 
-    def export(self, path):
+    def export(self, path, world_enu=(0.0, 0.0)):
         scene = trimesh.Scene()
         enu_to_gltf = np.array(
             [[1, 0, 0, 0], [0, 0, 1, 0], [0, -1, 0, 0], [0, 0, 0, 1]], dtype=float
         )
+        # Bake the world site: ENU (x, y) -> glTF translation (x, 0, -y).
+        site = np.eye(4)
+        site[0, 3], site[2, 3] = world_enu[0], -world_enu[1]
         for index, (name, mesh, color) in enumerate(self.parts):
             mesh = mesh.copy()
             mesh.visual = trimesh.visual.TextureVisuals(material=material(color, f"{name}_material"))
             mesh.apply_transform(enu_to_gltf)
+            mesh.apply_transform(site)
             scene.add_geometry(mesh, geom_name=f"{name}__{index}", node_name=f"{name}__{index}")
         for index, (name, mesh) in enumerate(self.textured):
             mesh = mesh.copy()
             mesh.apply_transform(enu_to_gltf)
+            mesh.apply_transform(site)
             scene.add_geometry(mesh, geom_name=f"{name}__{index}", node_name=f"{name}__{index}")
         scene.export(path)
 
@@ -144,7 +151,11 @@ def text_plane(image, width, height):
         dtype=float,
     )
     faces = np.array([[0, 2, 1], [0, 3, 2], [0, 1, 2], [0, 2, 3]])
-    uv = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=float)
+    # u runs opposite to +x: a viewer in front of the plane (the +y side) sees +x
+    # to their left, so u=0 (start of text) must sit at the +x edge or the sign
+    # reads mirrored. Same fix as the department frontage / Navy titles
+    # (verified by render 2026-10-21: the OAT sign previously read reversed).
+    uv = np.array([[1, 0], [0, 0], [0, 1], [1, 1]], dtype=float)
     mesh = trimesh.Trimesh(vertices, faces, process=False)
     mesh.visual = trimesh.visual.TextureVisuals(
         uv=uv,
@@ -214,8 +225,29 @@ def main():
         x, y = screen_r * math.cos(theta), screen_r * math.sin(theta)
         layer.add(box(x, y, 1.95, 0.42, 0.30, theta + math.pi / 2, 3.15), "concrete", f"{name}_stage_screen")
 
+    # Rectangular stage house behind the slat screen (photos 21.jpg /
+    # 30.jpg: a raised rectangular stage block with a maroon slatted
+    # backdrop stands behind the circular stage, north side).
+    layer.add(box(0, 11.9, 15.0, 5.2, 4.3, 0.0, 0.0), "brick_dark", f"{name}_stage_house")
+    layer.add(box(0, 11.9, 15.8, 5.8, 0.30, 0.0, 4.3), "concrete", f"{name}_stage_house")
+    for i in range(13):  # maroon vertical slats on the stage-facing wall
+        x = -6.0 + i * 1.0
+        layer.add(box(x, 9.22, 0.55, 0.16, 3.3, 0.0, 0.63), (0.45, 0.10, 0.13), f"{name}_stage_house")
+    for side in (-7.9, 7.9):  # end pillars
+        layer.add(box(side, 11.9, 0.6, 0.6, 4.6, 0.0, 0.0), "brick_red", f"{name}_stage_house")
+
     # Grass bank behind the top terrace.
     layer.add(annulus(0, 0, 29.6, 31.5, 0.25, 0.0, 48), "grass", name)
+
+    # Defined entrance opening on the south side: two brick gate pillars
+    # flanking the terrace gap + a paved entrance slab from the plaza
+    # edge out to the grounds edge (the connector path meets it here).
+    for theta_deg in (219, 339):
+        theta = math.radians(theta_deg)
+        x, y = 25.5 * math.cos(theta), 25.5 * math.sin(theta)
+        layer.add(box(x, y, 0.75, 0.75, 2.6, theta, 0.0), "brick_red", f"{name}_entrance")
+        layer.add(box(x, y, 0.95, 0.95, 0.25, theta, 2.6), "concrete", f"{name}_entrance")
+    layer.add(box(0, -26.0, 4.4, 11.5, 0.10, 0.0, 0.02), "concrete", f"{name}_entrance")
 
     # Black lamp posts around the plaza.
     for i in range(8):
@@ -235,15 +267,16 @@ def main():
     layer.add_textured(place(front, sx, sy - 0.11, 1.62, math.pi), f"{name}_sign_front")
     layer.add_textured(place(back, sx, sy + 0.11, 1.62, 0.0), f"{name}_sign_back")
 
+    site_enu = (-26.0, -116.0)  # baked world site, see docstring + placement_map.json
     out_path = os.path.join(ROOT, "props", "open_air_theatre.glb")
-    layer.export(out_path)
+    layer.export(out_path, world_enu=site_enu)
 
     loaded = trimesh.load(out_path)
     geometries = list(loaded.geometry.values())
     meta = {
-        "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at theatre centre (not world-sited)",
-        "placement": "APPROXIMATE / unsited: surveyed ENU unknown; site west of the main avenue before Unity sync registration",
-        "provenance": "User's own photo 1.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+        "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED (site baked into the GLB)",
+        "placement": "SITED (approximate, source: roads_geometry): centre ENU (-26.0, -116.0), heading 0 deg (terraces north/east/west, entrance south). Chosen 2026-10-21 from roads_v2.glb + data/osm_raw.osm geometry: the only clear 63 m circle on campus ground west of the main avenue (avenue centreline 38.4 m east of the centre, west service road centreline 41.2 m west, fountain 48 m south). No OSM node exists for the OAT; not surveyed.",
+        "provenance": "User's own photos 1.jpg, 21.jpg, 30.jpg, 76.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
         "generator": "tools/oat_theatre.py",
         "output": "props/open_air_theatre.glb",
         "contents": {
@@ -253,6 +286,8 @@ def main():
             "lamp_posts": 8,
             "sign_board": 1,
             "stage_screen": "curved red-brick slat screen + pergola beam (photo 76.jpg)",
+            "stage_house": "rectangular stage house with maroon slatted backdrop behind the screen (photos 21/30.jpg)",
+            "entrance": "brick gate pillars flanking the south terrace gap + paved entrance slab",
         },
         "glb_stats": {
             "geometries": len(geometries),
@@ -260,7 +295,7 @@ def main():
             "faces": int(sum(len(g.faces) for g in geometries)),
             "bounds_gltf": [[round(float(v), 2) for v in row] for row in loaded.bounds.tolist()],
         },
-        "integration": "Outstanding: add 'props/open_air_theatre.glb' to ChromepetSync.Glbs after siting the root node",
+        "integration": "Registered in ChromepetSync.Glbs (world-positioned, like props/chrompet_identity.glb); connector path props/connector_paths.glb links the avenue west edge to the south entrance. Registry: data/placement_map.json id open_air_theatre.",
     }
     with open(os.path.join(ROOT, "data", "oat_meta.json"), "w", encoding="utf-8") as handle:
         json.dump(meta, handle, indent=2, ensure_ascii=False)

@@ -158,6 +158,22 @@ def main():
     plinth = box_local(16.5, 6.0, 0.18, 0, 0, 0.09)
     layer.add(to_world(plinth, 0, 0, 0), "concrete", name)
 
+    # Concrete apron under the plinth, plus a paved path pad from the
+    # plinth's port side to the aircraft grove centre (142.6, -10.2 in
+    # data/v2_meta.json), where props/connector_paths.glb links the
+    # grove to the service road (OSM way 23092148).
+    apron = box_local(22.0, 13.0, 0.10, 0, 0, 0.05)
+    layer.add(to_world(apron, 0, 0, 0), "concrete", f"{name}_apron")
+    gdx, gdy = 142.6 - cx, -10.2 - cy  # grove centre offset in world ENU
+    glx = gdx * cos_y + gdy * sin_y     # ... converted to the local frame
+    gly = -gdx * sin_y + gdy * cos_y
+    ax, ay = 0.0, 5.5                   # pad starts at the apron edge
+    seg_len = math.hypot(glx - ax, gly - ay)
+    pad = trimesh.creation.box(extents=[seg_len, 2.4, 0.10])
+    pad.apply_transform(trimesh.transformations.rotation_matrix(math.atan2(gly - ay, glx - ax), [0, 0, 1]))
+    pad.apply_translation([(ax + glx) / 2, (ay + gly) / 2, 0.05])
+    layer.add(to_world(pad, 0, 0, 0), "concrete", f"{name}_apron")
+
     body_z = 2.35  # fuselage centre height on its supports
     # Fuselage: tapered capsule built from a cylinder + nose/tail cones.
     fus = trimesh.creation.cylinder(radius=1.05, height=9.5, sections=18)
@@ -232,11 +248,11 @@ def main():
     geometries = list(loaded.geometry.values())
     meta = {
         "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
-        "placement": "APPROXIMATE: centre ENU (154.0, -26.0), south-east of the aircraft grove centre (142.6, -10.2) in data/v2_meta.json; heading 0.55 rad ENU; from photo 15.jpg viewpoint, not surveyed",
+        "placement": "APPROXIMATE: centre ENU (154.0, -26.0), south-east of the aircraft grove centre (142.6, -10.2) in data/v2_meta.json; heading 0.55 rad ENU (nose bearing 58.5 deg); from photo 15.jpg viewpoint, not surveyed. Position kept at the 2026-10-21 siting review: the roads geometry (OSM way 23092149) passes ~2 m south of the plinth and way 23092148 passes the grove centre, so the display is already road-adjacent; a concrete apron + path pad to the grove centre was added instead of moving it.",
         "provenance": "User's own photo 15.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
         "generator": "tools/navy_aircraft.py",
         "output": "props/navy_aircraft_display.glb",
-        "contents": {"aircraft": 1, "display_plinth": 1, "supports": 2},
+        "contents": {"aircraft": 1, "display_plinth": 1, "supports": 2, "apron": 1, "grove_path_pad": 1},
         "glb_stats": {
             "geometries": len(geometries),
             "vertices": int(sum(len(g.vertices) for g in geometries)),

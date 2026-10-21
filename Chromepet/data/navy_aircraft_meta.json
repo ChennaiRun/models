@@ -1,28 +1,30 @@
 {
   "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
-  "placement": "APPROXIMATE: centre ENU (154.0, -26.0), south-east of the aircraft grove centre (142.6, -10.2) in data/v2_meta.json; heading 0.55 rad ENU; from photo 15.jpg viewpoint, not surveyed",
+  "placement": "APPROXIMATE: centre ENU (154.0, -26.0), south-east of the aircraft grove centre (142.6, -10.2) in data/v2_meta.json; heading 0.55 rad ENU (nose bearing 58.5 deg); from photo 15.jpg viewpoint, not surveyed. Position kept at the 2026-10-21 siting review: the roads geometry (OSM way 23092149) passes ~2 m south of the plinth and way 23092148 passes the grove centre, so the display is already road-adjacent; a concrete apron + path pad to the grove centre was added instead of moving it.",
   "provenance": "User's own photo 15.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
   "generator": "tools/navy_aircraft.py",
   "output": "props/navy_aircraft_display.glb",
   "contents": {
     "aircraft": 1,
     "display_plinth": 1,
-    "supports": 2
+    "supports": 2,
+    "apron": 1,
+    "grove_path_pad": 1
   },
   "glb_stats": {
-    "geometries": 24,
-    "vertices": 350,
-    "faces": 604,
+    "geometries": 26,
+    "vertices": 366,
+    "faces": 628,
     "bounds_gltf": [
       [
-        145.4,
+        141.22,
         0.0,
-        18.91
+        9.47
       ],
       [
-        162.6,
+        166.78,
         5.24,
-        32.87
+        37.29
       ]
     ]
   },

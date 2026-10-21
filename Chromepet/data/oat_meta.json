@@ -1,7 +1,7 @@
 {
-  "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at theatre centre (not world-sited)",
-  "placement": "APPROXIMATE / unsited: surveyed ENU unknown; site west of the main avenue before Unity sync registration",
-  "provenance": "User's own photo 1.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED (site baked into the GLB)",
+  "placement": "SITED (approximate, source: roads_geometry): centre ENU (-26.0, -116.0), heading 0 deg (terraces north/east/west, entrance south). Chosen 2026-10-21 from roads_v2.glb + data/osm_raw.osm geometry: the only clear 63 m circle on campus ground west of the main avenue (avenue centreline 38.4 m east of the centre, west service road centreline 41.2 m west, fountain 48 m south). No OSM node exists for the OAT; not surveyed.",
+  "provenance": "User's own photos 1.jpg, 21.jpg, 30.jpg, 76.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
   "generator": "tools/oat_theatre.py",
   "output": "props/open_air_theatre.glb",
   "contents": {
@@ -10,24 +10,26 @@
     "terrace_steps": 6,
     "lamp_posts": 8,
     "sign_board": 1,
-    "stage_screen": "curved red-brick slat screen + pergola beam (photo 76.jpg)"
+    "stage_screen": "curved red-brick slat screen + pergola beam (photo 76.jpg)",
+    "stage_house": "rectangular stage house with maroon slatted backdrop behind the screen (photos 21/30.jpg)",
+    "entrance": "brick gate pillars flanking the south terrace gap + paved entrance slab"
   },
   "glb_stats": {
-    "geometries": 193,
-    "vertices": 3676,
-    "faces": 6616,
+    "geometries": 215,
+    "vertices": 3852,
+    "faces": 6880,
     "bounds_gltf": [
       [
-        -31.5,
+        -57.5,
         0.0,
-        -31.5
+        84.5
       ],
       [
-        31.5,
+        5.5,
         4.86,
-        31.5
+        147.75
       ]
     ]
   },
-  "integration": "Outstanding: add 'props/open_air_theatre.glb' to ChromepetSync.Glbs after siting the root node"
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned, like props/chrompet_identity.glb); connector path props/connector_paths.glb links the avenue west edge to the south entrance. Registry: data/placement_map.json id open_air_theatre."
 }

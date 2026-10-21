@@ -50,11 +50,23 @@ public static class ChrompetSceneBuilder
             }
         }
 
-        // Detailed hand/bpy-modelled buildings (Chromepet/buildings/detailed/*.glb). Each replaces a procedural box:
+        // Detailed hand/bpy-modelled buildings (Chromepet/buildings/detailed/*.glb). Most replace a procedural box:
         // nodes named COL_* become invisible MeshColliders, visual meshes get no collider, and the procedural
-        // building whose node name starts with the mapped prefix is disabled.
+        // building whose node name starts with the mapped prefix is disabled. Assets listed in 'placements'
+        // below are origin-centred and are positioned/rotated here instead of using a baked transform
+        // (the Production Technology frontage is an additive overlay and replaces nothing).
         var replaces = new System.Collections.Generic.Dictionary<string, string> {
             { "ct_charles_babbage", "Charles_Babbage_Block" } };
+        // Placement entries for origin-centred detailed assets (position = Unity ENU
+        // (east, 0, north); rotation Y in degrees). Values are the single source in
+        // data/placement_map.json -- keep the two in sync.
+        // production_technology_frontage: additive overlay (NOT in 'replaces'; the
+        // procedural building stays). Anchor = facade centre on the back-wall plane at
+        // ENU (170.42, 75.39), just in front of the Production Technology node box
+        // (OSM node 432468201, ENU (184.2, 66.2)) along mit_details.facing() = 146.29 deg
+        // ENU; front-normal heading 303.71 deg => rotation Y -56.29 deg.
+        var placements = new System.Collections.Generic.Dictionary<string, (Vector3 pos, float rotY)> {
+            { "production_technology_frontage", (new Vector3(170.42f, 0f, 75.39f), -56.29f) } };
         var detRoot = new GameObject("Detailed_Buildings"); detRoot.transform.SetParent(world.transform);
         foreach (var path in Directory.Exists(Dir + "detailed") ? Directory.GetFiles(Dir + "detailed", "*.glb") : new string[0])
         {
@@ -62,6 +74,11 @@ public static class ChrompetSceneBuilder
             if (!p) continue;
             var go = (GameObject)PrefabUtility.InstantiatePrefab(p, detRoot.transform);
             go.name = Path.GetFileNameWithoutExtension(path);
+            if (placements.TryGetValue(go.name, out var pl))
+            {
+                go.transform.position = pl.pos;
+                go.transform.rotation = Quaternion.Euler(0f, pl.rotY, 0f);
+            }
             foreach (var t in go.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
             foreach (var mf in go.GetComponentsInChildren<MeshFilter>())
             {

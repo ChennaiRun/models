@@ -26,12 +26,17 @@ cream/yellow/blue-sign colours (documented in data/production_frontage_meta.json
 Placement: ORIGIN-CENTRED, front normal = local +Y (north in the local
 ENU frame; exported glTF x=east, y=up, z=-north). Width 26 m matches
 the 28 m procedural node box in mit_details.py. Integration is
-ADDITIVE, not a replacement: position the frontage just in front of
-the procedural box, rotated to its avenue facing (mit_details.facing),
-and do NOT add a 'replaces' entry for it -- see
-data/production_frontage_meta.json. It is therefore not yet registered
-in ChrompetSceneBuilder (which auto-loads buildings/detailed/*.glb at
-their baked world positions).
+ADDITIVE, not a replacement: ChrompetSceneBuilder carries a placement
+entry for this file (added 2026-10-21) that positions the frontage
+just in front of the procedural box, rotated to its avenue facing
+(mit_details.facing). The placement, derived from the OSM node
+432468201 (Department of Production Technology, ENU (184.2, 66.2))
+and mit_details.facing() = 146.29 deg ENU: builder anchor (facade
+centre, back-wall plane) ENU (170.42, 75.39) -- the box surface along
+the facing ray plus 0.35 m -- heading 303.71 deg, Unity rotation Y
+-56.29 deg. Do NOT add a 'replaces' entry for it -- the procedural
+building stays visible behind/above the frontage. Registry:
+data/placement_map.json (id production_technology_frontage).
 
 Run from Chromepet/:  python3 tools/production_technology_frontage.py
 Dependencies: trimesh, numpy, pillow
@@ -234,6 +239,11 @@ def main():
     front = text_plane(texture, 20.6, 1.02)
     layer.add_textured(place(front, 0, 5.68, 2.99, 0.0), f"{name}_sign_text")
 
+    # Entrance steps up to the porch floor (photo 14.jpg shows a stepped
+    # threshold in front of the porch).
+    layer.add(box(0, 5.62, 5.0, 0.44, 0.09, 0.0, 0.0), "cream_dark", f"{name}_steps")
+    layer.add(box(0, 5.97, 5.0, 0.40, 0.045, 0.0, 0.0), "cream_dark", f"{name}_steps")
+
     # Open maroon double doors (centre) with dark doorway behind.
     layer.add(box(0, 0.30, 3.0, 0.10, 2.75, 0.0, 0.14), "doorway_dark", name)
     layer.add(box(-1.62, 0.55, 1.35, 0.10, 2.65, 0.5, 0.14), "maroon", name)  # left leaf, ajar
@@ -255,7 +265,10 @@ def main():
     geometries = list(loaded.geometry.values())
     meta = {
         "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at facade centre, front normal = local +Y (north before export transform)",
-        "placement": "APPROXIMATE / unsited: additive overlay for the 'Department of Production Technology' procedural node in tools/mit_details.py (style 'auto', 28x18 m node box); place just in front of that box rotated to mit_details.facing(); do NOT hide the procedural building",
+        "placement": "SITED via ChrompetSceneBuilder placement entry (approximate, source: osm): additive overlay for the 'Department of Production Technology' procedural node in tools/mit_details.py (OSM node 432468201, ENU (184.2, 66.2), style 'auto', 28x18 m node box measured in buildings/campus_buildings.glb as x 170.2-198.2, north 57.2-75.2). Builder anchor ENU (170.42, 75.39) = box surface along mit_details.facing() (146.29 deg ENU) + 0.35 m; heading 303.71 deg; Unity rotation Y -56.29 deg. Procedural building is NOT hidden (ground-floor overlay only).",
+        "placement_enu": [170.42, 75.39],
+        "heading_deg": 303.71,
+        "unity_rotation_y_deg": -56.29,
         "provenance": "User's own photo 14.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
         "generator": "tools/production_technology_frontage.py",
         "output": "buildings/detailed/production_technology_frontage.glb",
@@ -266,6 +279,7 @@ def main():
             "sign": "DEPARTMENT OF PRODUCTION TECHNOLOGY (original PIL rendering)",
             "lattice_panels": 4,
             "porch_columns": 4,
+            "entrance_steps": 2,
         },
         "glb_stats": {
             "geometries": len(geometries),
@@ -273,7 +287,7 @@ def main():
             "faces": int(sum(len(g.faces) for g in geometries)),
             "bounds_gltf": [[round(float(v), 2) for v in row] for row in loaded.bounds.tolist()],
         },
-        "integration": "Outstanding: ChrompetSceneBuilder auto-loads every buildings/detailed/*.glb at its baked position, so this origin-centred file will appear at the world origin until the builder gains a placement entry for it; integrator should add that entry (translate/rotate the root to the Production Technology node, COL_frontage becomes its collider) before shipping it in the game scene.",
+        "integration": "ChrompetSceneBuilder.Placements carries the entry for 'production_technology_frontage' (position (170.42, 0, 75.39) in Unity ENU, rotation Y -56.29 deg); COL_frontage becomes its collider via the builder's COL_* handling. ChromepetSync already copies all buildings/detailed/*.glb. Registry: data/placement_map.json.",
     }
     with open(os.path.join(ROOT, "data", "production_frontage_meta.json"), "w", encoding="utf-8") as handle:
         json.dump(meta, handle, indent=2, ensure_ascii=False)

@@ -1,6 +1,12 @@
 {
   "frame": "glTF: x=east, y=up, z=-north (metres); LOCAL origin at facade centre, front normal = local +Y (north before export transform)",
-  "placement": "APPROXIMATE / unsited: additive overlay for the 'Department of Production Technology' procedural node in tools/mit_details.py (style 'auto', 28x18 m node box); place just in front of that box rotated to mit_details.facing(); do NOT hide the procedural building",
+  "placement": "SITED via ChrompetSceneBuilder placement entry (approximate, source: osm): additive overlay for the 'Department of Production Technology' procedural node in tools/mit_details.py (OSM node 432468201, ENU (184.2, 66.2), style 'auto', 28x18 m node box measured in buildings/campus_buildings.glb as x 170.2-198.2, north 57.2-75.2). Builder anchor ENU (170.42, 75.39) = box surface along mit_details.facing() (146.29 deg ENU) + 0.35 m; heading 303.71 deg; Unity rotation Y -56.29 deg. Procedural building is NOT hidden (ground-floor overlay only).",
+  "placement_enu": [
+    170.42,
+    75.39
+  ],
+  "heading_deg": 303.71,
+  "unity_rotation_y_deg": -56.29,
   "provenance": "User's own photo 14.jpg (Mar 2019), Drive folder 'mit', observation only; no photo pixels shipped, no people modelled",
   "generator": "tools/production_technology_frontage.py",
   "output": "buildings/detailed/production_technology_frontage.glb",
@@ -10,17 +16,18 @@
     "facade_width_m": 26.0,
     "sign": "DEPARTMENT OF PRODUCTION TECHNOLOGY (original PIL rendering)",
     "lattice_panels": 4,
-    "porch_columns": 4
+    "porch_columns": 4,
+    "entrance_steps": 2
   },
   "glb_stats": {
-    "geometries": 244,
-    "vertices": 4288,
-    "faces": 7600,
+    "geometries": 246,
+    "vertices": 4304,
+    "faces": 7624,
     "bounds_gltf": [
       [
         -13.24,
         0.0,
-        -5.68
+        -6.17
       ],
       [
         13.24,
@@ -29,5 +36,5 @@
       ]
     ]
   },
-  "integration": "Outstanding: ChrompetSceneBuilder auto-loads every buildings/detailed/*.glb at its baked position, so this origin-centred file will appear at the world origin until the builder gains a placement entry for it; integrator should add that entry (translate/rotate the root to the Production Technology node, COL_frontage becomes its collider) before shipping it in the game scene."
+  "integration": "ChrompetSceneBuilder.Placements carries the entry for 'production_technology_frontage' (position (170.42, 0, 75.39) in Unity ENU, rotation Y -56.29 deg); COL_frontage becomes its collider via the builder's COL_* handling. ChromepetSync already copies all buildings/detailed/*.glb. Registry: data/placement_map.json."
 }
