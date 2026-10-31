@@ -22,6 +22,13 @@ roads/roads_v2.glb and data/osm_raw.osm (OSM, ODbL):
   edge (141.5, -9.5) to the aircraft grove centre / Navy apron end
   (143.4, -10.6), and service road (OSM 23092149) edge (148.4, -33.8)
   to the Navy plinth south edge (148.5, -32.2).
+* Connector_garden   -- Admin garden loop added 2026-10-31: west
+  service road (OSM 23092151) east edge (-56.8, -75.8) to the gazebo
+  west edge (-40.6, -66.0); gazebo east edge (-31.8, -63.5) to the
+  pergola west edge (-24.0, -77.5); pergola east edge (-13.2, -79.8)
+  to the Admin Block west face (11.3, -74.6). Gazebo/pergola centres
+  and the admin footprint are from data/placement_map.json (garden
+  props are photo_relative placements).
 
 Strips are 2.2-2.4 m wide, 0.07 m thick, top at z=0.07 (above the
 campus ground top ~0.01, below the avenue road top 0.10), in the
@@ -54,6 +61,9 @@ PATHS = {
     "Connector_prodtech": ([(158.3, 83.5), (165.59, 78.61)], 2.2),
     "Connector_grove": ([(141.5, -9.5), (143.4, -10.6)], 2.2),
     "Connector_grove_plinth": ([(148.4, -33.8), (148.5, -32.2)], 2.2),
+    "Connector_garden_west": ([(-56.8, -75.8), (-48.0, -72.0), (-40.6, -66.0)], 2.2),
+    "Connector_garden_loop": ([(-31.8, -63.5), (-27.0, -71.0), (-24.0, -77.5)], 2.2),
+    "Connector_admin": ([(-13.2, -79.8), (0.0, -78.0), (11.3, -74.6)], 2.2),
 }
 
 
@@ -112,7 +122,7 @@ def main():
             "faces": int(sum(len(g.faces) for g in geometries)),
             "bounds_gltf": [[round(float(v), 2) for v in row] for row in loaded.bounds.tolist()],
         },
-        "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (ids connector_oat, connector_letters, connector_statue, connector_prodtech, connector_grove).",
+        "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (ids connector_oat, connector_letters, connector_statue, connector_prodtech, connector_grove, connector_garden).",
     }
     with open(os.path.join(ROOT, "data", "connector_paths_meta.json"), "w", encoding="utf-8") as handle:
         json.dump(meta, handle, indent=2, ensure_ascii=False)

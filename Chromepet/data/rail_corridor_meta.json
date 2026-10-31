@@ -1,0 +1,169 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
+  "placement": "OSM-derived: Catmull-Rom alignment through the railway=station node chain listed in the generator (Overpass 2026-10-31, ODbL; provenance data/rail_corridor.osm). Rails/ballast/OHE clipped out of north -1526..+1258 m where roads_v2.glb already carries the railway.",
+  "provenance": "Geometry from OpenStreetMap data (ODbL). Station architecture and board artwork are original procedural interpretations, not surveyed and not copied signage.",
+  "generator": "tools/rail_corridor.py",
+  "output": "props/rail_corridor.glb",
+  "stations": [
+    {
+      "name": "Guindy",
+      "lat_lon": [
+        13.0086685,
+        80.2126063
+      ],
+      "enu": [
+        7942.06,
+        6675.66
+      ],
+      "kind": "detailed"
+    },
+    {
+      "name": "Saint Thomas Mount",
+      "lat_lon": [
+        12.9947654,
+        80.1993715
+      ],
+      "enu": [
+        6506.23,
+        5127.98
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Palavanthangal",
+      "lat_lon": [
+        12.9906385,
+        80.1879401
+      ],
+      "enu": [
+        5266.06,
+        4668.57
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Meenambakkam",
+      "lat_lon": [
+        12.98767,
+        80.17648
+      ],
+      "enu": [
+        4022.76,
+        4338.12
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Tirusulam",
+      "lat_lon": [
+        12.98046,
+        80.16579
+      ],
+      "enu": [
+        2863.02,
+        3535.51
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Pallavaram",
+      "lat_lon": [
+        12.96757,
+        80.15205
+      ],
+      "enu": [
+        1372.38,
+        2100.6
+      ],
+      "kind": "detailed"
+    },
+    {
+      "name": "Chrompet",
+      "lat_lon": [
+        12.95219,
+        80.14117
+      ],
+      "enu": [
+        192.03,
+        388.51
+      ],
+      "kind": "none"
+    },
+    {
+      "name": "Tambaram Sanatorium",
+      "lat_lon": [
+        12.93696,
+        80.1307
+      ],
+      "enu": [
+        -943.85,
+        -1306.89
+      ],
+      "kind": "detailed"
+    },
+    {
+      "name": "Tambaram",
+      "lat_lon": [
+        12.92579,
+        80.11792
+      ],
+      "enu": [
+        -2330.34,
+        -2550.33
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Perungalattur",
+      "lat_lon": [
+        12.90524,
+        80.09505
+      ],
+      "enu": [
+        -4811.48,
+        -4837.95
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Vandalur",
+      "lat_lon": [
+        12.89161,
+        80.08497
+      ],
+      "enu": [
+        -5905.04,
+        -6355.23
+      ],
+      "kind": "detailed"
+    }
+  ],
+  "track": {
+    "running_lines": 2,
+    "track_centres_m": [
+      -2.35,
+      2.35
+    ],
+    "gauge_m": 1.676,
+    "ballast_width_m": 11.0,
+    "ohe_height_m": 7.0
+  },
+  "glb_stats": {
+    "geometries": 94,
+    "vertices": 12170,
+    "faces": 19708,
+    "bounds_gltf": [
+      [
+        -5982.73,
+        -0.12,
+        -6772.79
+      ],
+      [
+        8030.99,
+        7.0,
+        6460.76
+      ]
+    ]
+  },
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (id rail_corridor)."
+}

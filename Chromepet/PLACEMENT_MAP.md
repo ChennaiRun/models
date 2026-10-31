@@ -30,8 +30,9 @@ The registry for every buildable asset in the Chromepet area: where it sits, whi
 | landmarks_layer | Landmarks layer (gate, fountain, tank, walkway, grove aircraft, spawn markers) | (0.0, 0.0) | 12.9487, 80.1394 | 0.0 | 560.0 x 740.0 | 27.0 | v2_meta | high | - |
 | trees_layer | Trees layer (2,510 trees) | (0.0, 0.0) | 12.9487, 80.1394 | 0.0 | 2600.0 x 2800.0 | 12.0 | v2_meta | high | - |
 | chrompet_identity | Chrompet identity layer (station boards, office, EMU, auto-rickshaws) | (156.52, 328.51) | 12.951651, 80.140843 | 0.0 | 366.0 x 636.0 | 6.0 | v2_meta | high | roads_layer |
+| chrompet_station_details | Chrompet station platform details (edge lines, tactile strips, benches, number boards, lights, dustbins) | (215.46, 371.99) | 12.952042, 80.141386 | 0.0 | 206.3 x 282.1 | 5.1 | roads_geometry | approximate | roads_layer, chrompet_identity |
 | main_gate | Main Gate (MIT South Gate) | (-77.67, -263.19) | 12.946336, 80.138684 | 34.3 | 17.5 x 2.2 | 8.4 | osm | high | roads_layer, mit_letters |
-| admin_block | Admin Block & Dean Office (procedural) | (25.3, -74.3) | 12.948033, 80.139633 | 0.0 | 28.0 x 18.0 | 14.0 | osm | high | pergola, gazebo |
+| admin_block | Admin Block & Dean Office (procedural) | (25.3, -74.3) | 12.948033, 80.139633 | 0.0 | 28.0 x 18.0 | 14.0 | osm | high | pergola, gazebo, connector_garden |
 | charles_babbage_block | Charles Babbage Block (detailed) | (249.5, 168.2) | 12.950211, 80.1417 | 0.0 | 42.9 x 31.8 | 8.8 | v2_meta | high | campus_buildings_layer |
 | rajam_statue_arch | Rajam statue arch + pool (landmarks layer) | (217.6, 0.5) | 12.948704, 80.141406 | 303.0 | 8.0 x 5.0 | 6.3 | osm | high | golden_statue_garden, connector_statue |
 | avenue_fountain | Avenue fountain + Anna University sign | (-28.2, -163.9) | 12.947228, 80.13914 | 0.0 | 11.4 x 11.4 | 1.9 | v2_meta | high | roads_layer |
@@ -39,8 +40,8 @@ The registry for every buildable asset in the Chromepet area: where it sits, whi
 | open_air_theatre | Open Air Theatre (OAT) | (-26.0, -116.0) | 12.947658, 80.13916 | 0.0 | 63.0 x 63.2 | 4.86 | roads_geometry | approximate | connector_oat, roads_layer |
 | mit_letters | MIT letters monument | (-50.1, -245.7) | 12.946493, 80.138938 | 304.27 | 13.2 x 3.7 | 3.38 | osm | approximate | connector_letters, main_gate |
 | golden_statue_garden | Golden statue garden (C. Rajam) | (224.0, 10.0) | 12.94879, 80.141465 | 34.0 | 6.8 x 10.5 | 3.54 | osm | approximate | connector_statue, rajam_statue_arch |
-| pergola | Garden pergola | (-18.0, -80.0) | 12.947981, 80.139234 | 0.0 | 8.8 x 4.6 | 3.53 | photo_relative | approximate | gazebo, admin_block |
-| gazebo | Garden gazebo | (-36.0, -64.0) | 12.948125, 80.139068 | 0.0 | 8.7 x 7.2 | 5.03 | photo_relative | approximate | pergola, admin_block |
+| pergola | Garden pergola | (-18.0, -80.0) | 12.947981, 80.139234 | 0.0 | 8.8 x 4.6 | 3.53 | photo_relative | approximate | gazebo, admin_block, connector_garden |
+| gazebo | Garden gazebo | (-36.0, -64.0) | 12.948125, 80.139068 | 0.0 | 8.7 x 7.2 | 5.03 | photo_relative | approximate | pergola, admin_block, connector_garden |
 | production_technology_frontage | Department of Production Technology frontage (detailed) | (170.42, 75.39) | 12.949377, 80.140971 | 303.71 | 26.5 x 6.9 | 7.18 | osm | approximate | connector_prodtech, campus_buildings_layer |
 | navy_aircraft_display | Indian Navy aircraft display | (154.0, -26.0) | 12.948466, 80.14082 | 328.49 | 22.0 x 26.9 | 5.24 | v2_meta | approximate | aircraft_grove, connector_grove |
 | connector_oat | Connector path: avenue to OAT entrance | (-19.0, -143.8) | 12.947408, 80.139225 | 0.0 | 32.1 x 2.4 | 0.07 | roads_geometry | approximate | open_air_theatre, roads_layer |
@@ -48,6 +49,8 @@ The registry for every buildable asset in the Chromepet area: where it sits, whi
 | connector_statue | Connector path: Rajam Hall Road to statue garden | (218.4, 5.0) | 12.948745, 80.141413 | 0.0 | 3.7 x 2.2 | 0.07 | roads_geometry | approximate | golden_statue_garden, roads_layer |
 | connector_prodtech | Connector path: avenue to Production Technology porch | (161.9, 81.1) | 12.949429, 80.140892 | 0.0 | 8.8 x 2.2 | 0.07 | roads_geometry | approximate | production_technology_frontage, roads_layer |
 | connector_grove | Connector paths: service roads to aircraft grove / Navy plinth | (145.0, -21.0) | 12.948511, 80.140737 | 0.0 | 9.2 x 2.2 | 0.07 | roads_geometry | approximate | navy_aircraft_display, aircraft_grove, roads_layer |
+| connector_garden | Connector paths: west service road to Admin garden (gazebo, pergola, Admin Block) | (-22.0, -73.0) | 12.948044, 80.139197 | 0.0 | 68.1 x 16.3 | 0.07 | roads_geometry | approximate | gazebo, pergola, admin_block, roads_layer |
+| rail_corridor | Suburban rail corridor Guindy-Vandalur (2 tracks, OHE, 10 stations) | (1024.0, 156.0) | 12.950102, 80.148828 | 0.0 | 14013.0 x 13234.0 | 7.0 | osm | approximate | roads_layer, chrompet_identity |
 
 ## Road network
 
@@ -71,6 +74,13 @@ Full centrelines (ENU polylines) are in the JSON under `road_network`.
 - **Pergola (-18, -80) and gazebo (-36, -64)** — the Admin-side garden west of the Admin Block (photo 18.jpg), east of the west service road, ~27 m apart.
 - **Production Technology frontage (anchor 170.42, 75.39)** — the department is a no-footprint OSM node (432468201) whose procedural box was measured in `campus_buildings.glb`. The frontage is placed on the box surface along `mit_details.facing()` (146.29 deg ENU, toward the avenue) + 0.35 m, as a ground-floor overlay; the procedural building is not hidden. Two entrance steps were added (photo 14.jpg).
 - **Navy aircraft (154, -26, kept)** — the roads survey confirmed the original spot is already road-adjacent (OSM 23092149 passes ~2 m south of the plinth, 23092148 passes the grove), so instead of moving it, it gained a concrete apron and a path pad to the grove centre, joined to the roads by `connector_grove`.
+
+## Siting rationale (2026-10-31 pass)
+
+- **Chrompet station details (215.46, 371.99)** — additive furniture on the two existing `roads_v2.glb` platform slabs (centres (205.51, 378.77) / (225.40, 365.21), 320 m x 7.46 m, top y=0.95, canopy underside y=5.10; measured by PCA of the slab meshes). Edge lines/tactile strips run full length 0.28 m and 0.88 m inside each edge; benches alternate sides of the centreline columns; number boards hang from the canopy at the quarter points; platform 1 is the station-office side. No surface duplicates existing geometry (strips stand 2-3 cm proud).
+- **Connector garden (-22, -73)** — the Admin garden props (pergola, gazebo) and the Admin Block west face had no paved link. Three strips close the loop: west service road (OSM 23092151) east edge -> gazebo -> pergola -> Admin Block, matching the garden layout of the 2026-10-21 siting.
+
+- **Rail corridor (1024, 156)** — additive Guindy-Vandalur suburban line layer (2026-10-31). Alignment is a Catmull-Rom spline through the OSM `railway=station` node chain (the line passes every station; provenance `data/rail_corridor.osm`, ODbL). Detailed stations (two 240 m side platforms at +-8 m, 140 m canopy, trilingual boards) at Guindy, Pallavaram, Tambaram Sanatorium and Vandalur; minor platforms + one board at Saint Thomas Mount, Palavanthangal, Meenambakkam, Tirusulam, Tambaram, Perungalattur. Rails/ballast/OHE are clipped out of north -1526..+1258 m, where `roads_v2.glb` already carries the railway; Chrompet station is untouched. Station architecture is an original low-poly interpretation, not surveyed.
 
 ## Known limitations
 

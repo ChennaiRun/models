@@ -1,0 +1,53 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
+  "placement": "SITED (approximate, source: roads_geometry): platform slab centres, axis, top and canopy heights measured from roads/roads_v2.glb 'Chromepet_station' nodes on 2026-10-31; constants baked in the generator docstring.",
+  "provenance": "Original procedural geometry; station layout derives from OpenStreetMap data (ODbL) via the repo's own roads layer. Board artwork is original, not copied signage.",
+  "generator": "tools/station_details.py",
+  "output": "props/chrompet_station_details.glb",
+  "station_constants_enu": {
+    "platforms": {
+      "1": [
+        205.51,
+        378.77
+      ],
+      "2": [
+        225.4,
+        365.21
+      ]
+    },
+    "track_axis_enu": [
+      0.5633,
+      0.8263
+    ],
+    "half_length_m": 160.0,
+    "half_width_m": 3.73,
+    "platform_top_m": 0.95,
+    "canopy_underside_m": 5.1
+  },
+  "contents": {
+    "edge_warning_lines": 4,
+    "tactile_strips": 4,
+    "benches": 16,
+    "number_boards": 6,
+    "tube_lights": 16,
+    "dustbins": 8
+  },
+  "glb_stats": {
+    "geometries": 82,
+    "vertices": 2520,
+    "faces": 4120,
+    "bounds_gltf": [
+      [
+        113.5,
+        0.95,
+        -511.38
+      ],
+      [
+        317.41,
+        5.1,
+        -232.6
+      ]
+    ]
+  },
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (id chrompet_station_details)."
+}

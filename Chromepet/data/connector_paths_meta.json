@@ -86,15 +86,66 @@
         ]
       ],
       "width_m": 2.2
+    },
+    "Connector_garden_west": {
+      "polyline_enu": [
+        [
+          -56.8,
+          -75.8
+        ],
+        [
+          -48.0,
+          -72.0
+        ],
+        [
+          -40.6,
+          -66.0
+        ]
+      ],
+      "width_m": 2.2
+    },
+    "Connector_garden_loop": {
+      "polyline_enu": [
+        [
+          -31.8,
+          -63.5
+        ],
+        [
+          -27.0,
+          -71.0
+        ],
+        [
+          -24.0,
+          -77.5
+        ]
+      ],
+      "width_m": 2.2
+    },
+    "Connector_admin": {
+      "polyline_enu": [
+        [
+          -13.2,
+          -79.8
+        ],
+        [
+          0.0,
+          -78.0
+        ],
+        [
+          11.3,
+          -74.6
+        ]
+      ],
+      "width_m": 2.2
     }
   },
   "glb_stats": {
-    "geometries": 7,
-    "vertices": 56,
-    "faces": 84,
+    "geometries": 13,
+    "vertices": 104,
+    "faces": 156,
     "bounds_gltf": [
       [
-        -57.59,
+        -58.04,
         0.0,
         -84.9
       ],
@@ -105,5 +156,5 @@
       ]
     ]
   },
-  "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (ids connector_oat, connector_letters, connector_statue, connector_prodtech, connector_grove)."
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (ids connector_oat, connector_letters, connector_statue, connector_prodtech, connector_grove, connector_garden)."
 }

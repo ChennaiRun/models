@@ -18,7 +18,8 @@ public static class ChromepetSync
         "props/navy_aircraft_display.glb", "props/trees.glb",
         // World-positioned additive props sited 2026-10-21 (see data/placement_map.json).
         "props/open_air_theatre.glb", "props/mit_letters.glb", "props/golden_statue_garden.glb",
-        "props/pergola.glb", "props/gazebo.glb", "props/connector_paths.glb" };
+        "props/pergola.glb", "props/gazebo.glb", "props/connector_paths.glb",
+        "props/chrompet_station_details.glb", "props/rail_corridor.glb" };
 
     [MenuItem("Chrompet/Sync Area Assets")]
     public static void Sync()
