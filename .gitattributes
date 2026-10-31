@@ -9,3 +9,4 @@
 *.cs text eol=lf
 *.unity merge=unityyamlmerge eol=lf
 *.prefab merge=unityyamlmerge eol=lf
+*.gif filter=lfs diff=lfs merge=lfs -text

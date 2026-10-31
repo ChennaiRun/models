@@ -1,0 +1,107 @@
+{
+  "asset": "chennai_suburban_emu.glb",
+  "description": "Chennai Suburban Railway 9-car EMU rake, ICF WAU-4 type in the cream-and-green Southern Railway suburban livery.",
+  "frame": "glTF metres, +Y up, +Z = leading cab, +X = train left; y=0 top of rail; origin at rake centre on track centreline",
+  "gauge_m": 1.676,
+  "dimensions_m": {
+    "coach_body_length": 20.73,
+    "body_width": 3.66,
+    "roof_height_above_rail": 3.88,
+    "pantograph_head_above_rail": 5.45,
+    "floor_height": 1.27,
+    "bogie_centres": 14.63,
+    "bogie_wheelbase": 2.896,
+    "wheel_radius": 0.476,
+    "coach_pitch": 21.48,
+    "rake_length_over_bodies": 192.57
+  },
+  "consist_front_to_rear": [
+    {
+      "node": "coach_01_MC",
+      "type": "MC",
+      "cab": "front (+Z)",
+      "centre_z": 85.92,
+      "number": "12201"
+    },
+    {
+      "node": "coach_02_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": 64.44,
+      "number": "12202"
+    },
+    {
+      "node": "coach_03_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": 42.96,
+      "number": "12203"
+    },
+    {
+      "node": "coach_04_MC",
+      "type": "MC",
+      "cab": "front (+Z)",
+      "centre_z": 21.48,
+      "number": "12204"
+    },
+    {
+      "node": "coach_05_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": 0.0,
+      "number": "12205"
+    },
+    {
+      "node": "coach_06_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": -21.48,
+      "number": "12206"
+    },
+    {
+      "node": "coach_07_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": -42.96,
+      "number": "12207"
+    },
+    {
+      "node": "coach_08_TC",
+      "type": "TC",
+      "cab": "none",
+      "centre_z": -64.44,
+      "number": "12208"
+    },
+    {
+      "node": "coach_09_MC",
+      "type": "MC",
+      "cab": "rear (-Z)",
+      "centre_z": -85.92,
+      "number": "12209"
+    }
+  ],
+  "colliders": "COL_coach_NN box per coach; hide renderers in Unity",
+  "destination_board": "TAMBARAM",
+  "sources": "See vehicles/REFERENCE_MEDIA.md (Wikimedia Commons CC BY / CC BY-SA photos, IRIMEE EMU handbook, Wikipedia).",
+  "approximations": [
+    "Body length/width/height use typical ICF broad-gauge EMU values (20.73 m x 3.66 m x 3.88 m); not from a drawing.",
+    "Door/window counts and spacing are estimated from photos; interiors are not modelled (doorways are dark panels).",
+    "Middle motor coach is shown with its cab facing forward; real rake formations vary (9-car = three MC+2TC units).",
+    "Unit numbers are illustrative. Advertising wraps and the newer stainless-steel MEDHA/AC EMUs are not represented."
+  ],
+  "stats": {
+    "geometries": 123,
+    "vertices": 39210,
+    "triangles": 26316,
+    "bounds_min": [
+      -1.88,
+      0.007,
+      -96.835
+    ],
+    "bounds_max": [
+      1.88,
+      5.485,
+      96.835
+    ]
+  }
+}

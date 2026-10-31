@@ -1,0 +1,53 @@
+{
+  "asset": "mtc_low_floor_bus.glb",
+  "description": "MTC Chennai 12 m low-floor city bus (Ashok Leyland body style), current purple/cyan MTC livery, route 21G Tambaram.",
+  "frame": "glTF metres, +Y up, +Z = bus front, +X = bus left (door/kerb side), origin on road at bus centre",
+  "dimensions_m": {
+    "length": 12.0,
+    "body_width": 2.55,
+    "height_incl_roof_hatches": 3.19,
+    "wheelbase": 6.2,
+    "front_overhang": 2.6,
+    "wheel_radius": 0.48,
+    "entry_step_height": 0.32
+  },
+  "doors": {
+    "side": "+X (left/kerb)",
+    "front_z": [
+      4.35,
+      5.55
+    ],
+    "middle_z": [
+      -0.6,
+      0.6
+    ]
+  },
+  "nodes": {
+    "body": "painted body, glazing, doors, lamps, decals",
+    "wheels": "tyres and hubs (static; separate node for optional spin)",
+    "COL_MTC_low_floor_bus": "single box collider; hide its renderer in Unity"
+  },
+  "tamil_text_shaped": true,
+  "sources": "See vehicles/REFERENCE_MEDIA.md (Wikimedia Commons CC BY-SA 4.0 / CC0 photos, Ashok Leyland order notices).",
+  "approximations": [
+    "12 m length, 2.55 m width, 6.2 m wheelbase and 0.32 m skirt height are typical Ashok Leyland 12 m low-floor values, not measured from a specific bus.",
+    "Livery band heights are estimated from photos; the white diagonal swoosh and small stickers are omitted.",
+    "No interior; side glazing is opaque dark glass. Logos are deliberately not reproduced.",
+    "Fleet number and registration plate are fictitious."
+  ],
+  "stats": {
+    "geometries": 24,
+    "vertices": 3386,
+    "triangles": 2266,
+    "bounds_min": [
+      -1.565,
+      0.0,
+      -6.066
+    ],
+    "bounds_max": [
+      1.565,
+      3.19,
+      6.29
+    ]
+  }
+}

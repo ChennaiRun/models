@@ -1,0 +1,79 @@
+{
+  "asset": "cmrl_metro_phase1.glb",
+  "description": "Chennai Metro Phase 1 four-car Alstom Metropolis trainset (DMC1-TC1-TC2-DMC2), stainless steel with blue cab and stripes.",
+  "frame": "glTF metres, +Y up, +Z = leading cab (DMC1), +X = train left; y=0 top of rail; origin at trainset centre on track centreline",
+  "gauge_m": 1.435,
+  "dimensions_m": {
+    "car_width": 2.9,
+    "roof_height_above_rail": 3.9,
+    "floor_height": 1.13,
+    "dmc_length_incl_nose": 22.0,
+    "tc_length": 21.64,
+    "inter_car_gap": 0.6,
+    "train_length_over_bodies": 89.08,
+    "bogie_centres": 15.0,
+    "bogie_wheelbase": 2.2,
+    "wheel_radius": 0.43,
+    "pantograph_head_above_rail": 4.95,
+    "door_clear_width": 1.4,
+    "doors_per_side_per_car": 4
+  },
+  "consist_front_to_rear": [
+    {
+      "node": "car_DMC1",
+      "length": 22.0,
+      "centre_z": 33.54,
+      "number": "D101",
+      "cab": "front (+Z)",
+      "pantograph": false
+    },
+    {
+      "node": "car_TC1",
+      "length": 21.64,
+      "centre_z": 11.12,
+      "number": "T101",
+      "cab": "none",
+      "pantograph": true
+    },
+    {
+      "node": "car_TC2",
+      "length": 21.64,
+      "centre_z": -11.12,
+      "number": "T102",
+      "cab": "none",
+      "pantograph": true
+    },
+    {
+      "node": "car_DMC2",
+      "length": 22.0,
+      "centre_z": -33.54,
+      "number": "D102",
+      "cab": "rear (-Z)",
+      "pantograph": false
+    }
+  ],
+  "colliders": "COL_car_* box per car; hide renderers in Unity",
+  "destination_board": "AIRPORT",
+  "sources": "See vehicles/REFERENCE_MEDIA.md (CMRL rolling-stock page, Wikimedia Commons CC BY-SA 4.0 photos).",
+  "approximations": [
+    "Formation, stainless body, 25 kV overhead supply and 2.9 m width follow CMRL/DPR data; car lengths, bogie spacing and roof height are typical Metropolis values, not drawings.",
+    "Cab nose is a lofted approximation of the Phase 1 Metropolis front; windscreen and lamp layout are painted onto the end face.",
+    "Pantograph placement on the trailer cars is inferred from photos. Phase 2 driverless trainsets (darker livery) are not represented.",
+    "No interior; windows are opaque dark glass. Car numbers are illustrative; logos are omitted."
+  ],
+  "stats": {
+    "geometries": 56,
+    "vertices": 18752,
+    "triangles": 12336,
+    "bounds_min": [
+      -1.48,
+      0.007,
+      -45.16
+    ],
+    "bounds_max": [
+      1.48,
+      4.985,
+      45.16
+    ]
+  }
+}

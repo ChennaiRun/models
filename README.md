@@ -8,6 +8,7 @@ Open 3D environment, landmark, transport and character assets for ChennaiRun. Th
 |---|---|---|
 | [Chromepet](Chromepet/) | MIT campus, 8,700+ surrounding buildings, GST Road, MIT Flyover, Chrompet railway station, suburban train, local props, vegetation and detailed campus buildings | Active |
 | [Shared players](players/) | Vikram FBX character source | Active |
+| [Shared vehicles](vehicles/) | MTC low-floor bus, Chennai Suburban 9-car EMU, CMRL Phase 1 four-car metro | Active; Unity integration pending |
 
 Chromepet uses an offline OpenStreetMap-derived base plus original procedural and hand-modelled detail. Google Maps and other online imagery may be used only for observation where their terms permit it; restricted imagery is never copied, cached, traced or shipped.
 
@@ -23,6 +24,7 @@ Chromepet uses an offline OpenStreetMap-derived base plus original procedural an
   tools/           Reproducible generators
   unity/           Area-specific Unity integration
 players/           Reusable character assets
+vehicles/          Reusable Chennai transit vehicles and generators
 .agents/skills/    Repo-local Codex workflows
 scripts/           Repository validation
 ```
