@@ -111,7 +111,7 @@
         -2330.34,
         -2550.33
       ],
-      "kind": "minor"
+      "kind": "detailed"
     },
     {
       "name": "Perungalattur",
@@ -136,6 +136,114 @@
         -6355.23
       ],
       "kind": "detailed"
+    },
+    {
+      "name": "Kilambakkam",
+      "lat_lon": [
+        12.8743618,
+        80.076522
+      ],
+      "enu": [
+        -6821.56,
+        -8275.29
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Urappakkam",
+      "lat_lon": [
+        12.8673657,
+        80.0720222
+      ],
+      "enu": [
+        -7309.73,
+        -9054.09
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Guduvancheri",
+      "lat_lon": [
+        12.8452303,
+        80.0576503
+      ],
+      "enu": [
+        -8868.92,
+        -11518.19
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Potheri",
+      "lat_lon": [
+        12.8207567,
+        80.0368745
+      ],
+      "enu": [
+        -11122.86,
+        -14242.58
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Kattangulathur",
+      "lat_lon": [
+        12.8055581,
+        80.0266339
+      ],
+      "enu": [
+        -12233.85,
+        -15934.48
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Maraimalai Nagar",
+      "lat_lon": [
+        12.7964824,
+        80.0201906
+      ],
+      "enu": [
+        -12932.88,
+        -16944.79
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Singaperumal Koil",
+      "lat_lon": [
+        12.7619226,
+        80.0007799
+      ],
+      "enu": [
+        -15038.72,
+        -20791.97
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Paranur",
+      "lat_lon": [
+        12.7301201,
+        79.9839631
+      ],
+      "enu": [
+        -16863.16,
+        -24332.2
+      ],
+      "kind": "minor"
+    },
+    {
+      "name": "Chengalpattu Junction",
+      "lat_lon": [
+        12.6934653,
+        79.9805157
+      ],
+      "enu": [
+        -17237.16,
+        -28412.6
+      ],
+      "kind": "detailed"
     }
   ],
   "track": {
@@ -149,19 +257,19 @@
     "ohe_height_m": 7.0
   },
   "glb_stats": {
-    "geometries": 94,
-    "vertices": 12170,
-    "faces": 19708,
+    "geometries": 167,
+    "vertices": 23436,
+    "faces": 37676,
     "bounds_gltf": [
       [
-        -5982.73,
+        -17257.31,
         -0.12,
         -6772.79
       ],
       [
         8030.99,
         7.0,
-        6460.76
+        28533.12
       ]
     ]
   },

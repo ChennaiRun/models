@@ -33,9 +33,9 @@
     "dustbins": 8
   },
   "glb_stats": {
-    "geometries": 82,
-    "vertices": 2520,
-    "faces": 4120,
+    "geometries": 84,
+    "vertices": 3384,
+    "faces": 5416,
     "bounds_gltf": [
       [
         113.5,
@@ -44,7 +44,7 @@
       ],
       [
         317.41,
-        5.1,
+        7.3,
         -232.6
       ]
     ]

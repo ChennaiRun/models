@@ -47,6 +47,15 @@ HALF_LENGTH = 160.0
 HALF_WIDTH = 3.73
 PLATFORMS = {1: (205.51, 378.77), 2: (225.40, 365.21)}
 
+# Foot-overbridge deck (measured from roads_v2.glb Overbridge__0,
+# 2026-10-31): slab top y=6.80, overhanging P1 near its centre and
+# reaching toward P2. Staircases below plug into it (approximate).
+FOB_DECK_TOP = 6.80
+STAIRS = {  # platform -> ENU centre of the stair flight (along-track)
+    1: PLATFORMS[1],
+    2: (219.79, 356.95),  # P2 centre + along -10, near the FOB column row end
+}
+
 TRACK_YAW = math.atan2(TRACK_U[1], TRACK_U[0])   # local +x along track
 BOARD_YAW = math.atan2(TRACK_P[1], TRACK_P[0])   # local +x across track
 
@@ -264,6 +273,40 @@ def add_light(layer, number, offset_along):
     layer.add(trimesh.util.concatenate([tube, *rods]), "lamp_white", f"Station_light_P{number}")
 
 
+def add_stairs(layer, number):
+    """Straight stair flight along the platform up to the FOB deck.
+
+    Rise PLATFORM_TOP -> FOB_DECK_TOP over a ~10 m along-track run with a
+    central landing; two stringer walls. Approximate: the roads-layer FOB
+    deck overhangs the platforms here, exact historic stair geometry is
+    not in OSM. Used by the station journey route (data/journey_route.json).
+    """
+    cx, cy = STAIRS[number]
+    rise = FOB_DECK_TOP - PLATFORM_TOP          # 5.85
+    steps = 36
+    step_h = rise / steps                        # ~0.163
+    run = 10.0
+    step_d = run / steps
+    width = 1.6
+    ux, uy = TRACK_U
+    base_x = cx - ux * run / 2
+    base_y = cy - uy * run / 2
+    parts = []
+    for i in range(steps):
+        sx = base_x + ux * (i + 0.5) * step_d
+        sy = base_y + uy * (i + 0.5) * step_d
+        parts.append(box(sx, sy, step_d + 0.02, width, step_h, TRACK_YAW, PLATFORM_TOP + i * step_h))
+    # Stringer walls (thin boxes following the flight as stacked slabs).
+    nx, ny = -uy, ux
+    for side in (-1, 1):
+        for i in range(0, steps, 4):
+            sx = base_x + ux * (i + 2) * step_d + nx * side * (width / 2 + 0.04)
+            sy = base_y + uy * (i + 2) * step_d + ny * side * (width / 2 + 0.04)
+            h = (i + 4) * step_h + 0.5
+            parts.append(box(sx, sy, 4 * step_d + 0.02, 0.08, h, TRACK_YAW, PLATFORM_TOP))
+    layer.add(trimesh.util.concatenate(parts), "column" if "column" in COLORS else "steel", f"Station_stairs_P{number}")
+
+
 def add_dustbin(layer, number, offset_along, offset_across):
     x, y = along(number, offset_along, offset_across)
     body = cylinder(x, y, 0.28, 0.70, PLATFORM_TOP, 12)
@@ -275,6 +318,7 @@ def main():
     layer = Layer()
     for number in (1, 2):
         add_edge_and_tactile(layer, number)
+        add_stairs(layer, number)
         for index, offset_along in enumerate((-140, -100, -60, -20, 20, 60, 100, 140)):
             add_bench(layer, number, offset_along, 1.6 if index % 2 == 0 else -1.6)
         for offset_along in (-100, 0, 100):
@@ -310,6 +354,7 @@ def main():
             "number_boards": 6,
             "tube_lights": 16,
             "dustbins": 8,
+            "fob_staircases": 2,
         },
         "glb_stats": {
             "geometries": len(geometries),

@@ -1,4 +1,4 @@
-"""Chennai suburban rail corridor: Guindy <-> Vandalur -- additive layer.
+"""Chennai suburban rail corridor: Guindy <-> Chengalpattu -- additive layer.
 
 Builds the Beach-Chengalpattu south-line corridor through the Chromepet
 area: two broad-gauge running tracks with ballast bed and OHE masts, a
@@ -8,10 +8,13 @@ models (side platforms, canopy, trilingual nameboards) at:
 * Guindy (OSM node 13.0086685 N, 80.2126063 E)                -- detailed
 * Pallavaram (12.96757, 80.15205)                             -- detailed
 * Tambaram Sanatorium (12.93696, 80.13070)                    -- detailed
+* Tambaram (12.92579, 80.11792)                               -- detailed
 * Vandalur (12.89161, 80.08497)                               -- detailed
-* Minor platforms + board at the intermediate suburban stations:
-  Saint Thomas Mount, Palavanthangal, Meenambakkam, Tirusulam,
-  Tambaram, Perungalattur.
+* Chengalpattu Junction (12.6934653, 79.9805157)              -- detailed
+* Minor platforms + board at the 13 intermediate suburban stations
+  (Saint Thomas Mount ... Perungalattur, then Kilambakkam,
+  Urappakkam, Guduvancheri, Potheri, Kattangulathur, Maraimalai
+  Nagar, Singaperumal Koil, Paranur).
 
 Chrompet itself is NOT rebuilt -- it already exists in roads_v2.glb +
 chrompet_identity.glb; the corridor tracks thread through it.
@@ -70,9 +73,19 @@ STATIONS = [
     {"name": "Pallavaram", "ta": "பல்லாவரம்", "hi": "पल्लावरम", "lat": 12.96757, "lon": 80.15205, "kind": "detailed"},
     {"name": "Chrompet", "ta": "குரோம்பேட்டை", "hi": "क्रोमपेट", "lat": 12.95219, "lon": 80.14117, "kind": "none"},
     {"name": "Tambaram Sanatorium", "ta": "தாம்பரம் சானடோரியம்", "hi": "टाम्बरम सैनेटोरियम", "lat": 12.93696, "lon": 80.13070, "kind": "detailed"},
-    {"name": "Tambaram", "ta": "தாம்பரம்", "hi": "टाम्बरम", "lat": 12.92579, "lon": 80.11792, "kind": "minor"},
+    {"name": "Tambaram", "ta": "தாம்பரம்", "hi": "टाम्बरम", "lat": 12.92579, "lon": 80.11792, "kind": "detailed"},
     {"name": "Perungalattur", "ta": "பெருங்களத்தூர்", "hi": "पेरूंगलत्तूर", "lat": 12.90524, "lon": 80.09505, "kind": "minor"},
     {"name": "Vandalur", "ta": "வண்டலூர்", "hi": "वंडलूर", "lat": 12.89161, "lon": 80.08497, "kind": "detailed"},
+    # Southern extension to Chengalpattu Junction (Overpass 2026-10-31).
+    {"name": "Kilambakkam", "ta": "கிளாம்பாக்கம்", "hi": "किलम्बाक्कम", "lat": 12.8743618, "lon": 80.0765220, "kind": "minor"},
+    {"name": "Urappakkam", "ta": "உறப்பாக்கம்", "hi": "उरप्पाक्कम", "lat": 12.8673657, "lon": 80.0720222, "kind": "minor"},
+    {"name": "Guduvancheri", "ta": "கூடுவாஞ்சேரி", "hi": "गुडुवांचेरी", "lat": 12.8452303, "lon": 80.0576503, "kind": "minor"},
+    {"name": "Potheri", "ta": "போத்தேரி", "hi": "पोत्तेरी", "lat": 12.8207567, "lon": 80.0368745, "kind": "minor"},
+    {"name": "Kattangulathur", "ta": "காட்டாங்குளத்தூர்", "hi": "कट्टंगुलत्तूर", "lat": 12.8055581, "lon": 80.0266339, "kind": "minor"},
+    {"name": "Maraimalai Nagar", "ta": "மறைமலைநகர்", "hi": "मरैमलै नगर", "lat": 12.7964824, "lon": 80.0201906, "kind": "minor"},
+    {"name": "Singaperumal Koil", "ta": "சிங்கப்பெருமாள் கோயில்", "hi": "सिंगपेरुमाळ कोयिल", "lat": 12.7619226, "lon": 80.0007799, "kind": "minor"},
+    {"name": "Paranur", "ta": "பரனூர்", "hi": "परनूर", "lat": 12.7301201, "lon": 79.9839631, "kind": "minor"},
+    {"name": "Chengalpattu Junction", "ta": "செங்கல்பட்டு சந்திப்பு", "hi": "चेंगलपट्टू जंक्शन", "lat": 12.6934653, "lon": 79.9805157, "kind": "detailed"},
 ]
 
 TRACK_HALF = 2.35        # running-line centre offset from corridor axis

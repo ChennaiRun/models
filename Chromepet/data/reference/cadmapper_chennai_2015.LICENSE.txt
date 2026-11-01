@@ -1,0 +1,5 @@
+Map data (c) OpenStreetMap contributors.
+
+License details available at http://www.openstreetmap.org/copyright
+
+The downloaded file must be distributed with this accompanying license text.

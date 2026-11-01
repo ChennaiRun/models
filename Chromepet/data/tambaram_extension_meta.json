@@ -1,0 +1,146 @@
+{
+  "frame": "glTF: x=east, y=up, z=-north (metres), origin 12.9487N 80.1394E; WORLD-POSITIONED",
+  "extent": "OSM extract south of 12.9353 N to just past Tambaram station (the v2 area layers cover the band north of it)",
+  "source": "OpenStreetMap via Overpass, 2026-10-31 (ODbL); extract at data/tambaram_extension.osm. Google Earth/Maps used for layout observation only (no pixels/tracing), per MODEL_STANDARDS.md.",
+  "approximations": "Building heights generic (levels*3 m where tagged, else 7 m); flyover deck at a constant 6 m; road widths by highway class. Massing, not surveyed architecture.",
+  "generator": "tools/tambaram_extension.py",
+  "outputs": {
+    "ground/tambaram_ground.glb": {
+      "geometries": 15,
+      "vertices": 756,
+      "faces": 1452,
+      "bounds_gltf": [
+        [
+          -4816.1,
+          -0.11,
+          1137.67
+        ],
+        [
+          3728.41,
+          0.04,
+          5910.88
+        ]
+      ]
+    },
+    "roads/tambaram_roads.glb": {
+      "geometries": 20,
+      "vertices": 31134,
+      "faces": 62412,
+      "bounds_gltf": [
+        [
+          -4817.33,
+          0.0,
+          1221.25
+        ],
+        [
+          3730.14,
+          6.5,
+          5913.92
+        ]
+      ]
+    },
+    "buildings/tambaram_buildings.glb": {
+      "geometries": 9,
+      "vertices": 91474,
+      "faces": 139620,
+      "bounds_gltf": [
+        [
+          -4322.24,
+          0.0,
+          1483.12
+        ],
+        [
+          1382.15,
+          15.0,
+          3438.41
+        ]
+      ]
+    }
+  },
+  "water_bodies": 14,
+  "roads": {
+    "busway": {
+      "ways": 2,
+      "polygons": 1
+    },
+    "footway": {
+      "ways": 30,
+      "polygons": 11
+    },
+    "living_street": {
+      "ways": 31,
+      "polygons": 29
+    },
+    "path": {
+      "ways": 6,
+      "polygons": 5
+    },
+    "pedestrian": {
+      "ways": 2,
+      "polygons": 2
+    },
+    "primary": {
+      "ways": 21,
+      "polygons": 2
+    },
+    "primary_link": {
+      "ways": 1,
+      "polygons": 1
+    },
+    "residential": {
+      "ways": 1333,
+      "polygons": 120
+    },
+    "secondary": {
+      "ways": 11,
+      "polygons": 2
+    },
+    "secondary_link": {
+      "ways": 2,
+      "polygons": 2
+    },
+    "service": {
+      "ways": 155,
+      "polygons": 85
+    },
+    "steps": {
+      "ways": 17,
+      "polygons": 13
+    },
+    "tertiary": {
+      "ways": 51,
+      "polygons": 8
+    },
+    "tertiary_link": {
+      "ways": 1,
+      "polygons": 1
+    },
+    "track": {
+      "ways": 2,
+      "polygons": 2
+    },
+    "trunk": {
+      "ways": 24,
+      "polygons": 2
+    },
+    "trunk_link": {
+      "ways": 2,
+      "polygons": 2
+    },
+    "unclassified": {
+      "ways": 7,
+      "polygons": 5
+    },
+    "flyover": {
+      "ways": 29,
+      "piers": 43
+    }
+  },
+  "buildings": {
+    "total": 10832,
+    "with_levels": 41,
+    "skipped": 0,
+    "styles": 9
+  },
+  "integration": "Registered in ChromepetSync.Glbs (world-positioned). Registry: data/placement_map.json (id tambaram_extension)."
+}

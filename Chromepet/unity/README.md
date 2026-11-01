@@ -7,3 +7,13 @@ Open this folder (`Chromepet/unity`) in Unity Hub. Packages: glTFast (imports th
 
 **Orientation note:** the v1 OBJs (`../buildings/buildings.obj` etc.) used x=east, y=up, z=north (a left-handed frame); Unity's OBJ importer negates X, so v1 appeared **mirrored east-west** in Unity and the v1 spawn coordinate was off the road. v2 GLBs use standard glTF (x=east, y=up, z=-north) and were verified in Blender (glTF import → north = +Y); the builder no longer uses the OBJs.
 The source asset folders are authoritative. Do not commit the synced copies under `Assets/Models` or `Assets/Characters`. Scripts are not yet compiled/tested inside Unity.
+
+## Station journey (2026-10-31)
+
+Scripted ride: MIT back gate -> campus service roads -> Chrompet platform 1 -> FOB stairs -> platform 2 -> board the southbound EMU -> Tambaram Sanatorium -> alight.
+
+1. Run **Chrompet > Build MIT Campus Scene** first (creates the Player).
+2. Run **Chrompet > Setup Station Journey** (`ChrompetJourneySetup.cs`): syncs `data/journey_route.json` and the shared EMU (`../../vehicles/chennai_emu/`), instantiates `JourneyTrain` on the rail path, attaches `StationJourney` to the Player and parks it at the back gate.
+3. Press Play: the journey auto-starts after 2 s; press **J** to replay from the back gate. Control returns at Sanatorium.
+
+Route data: `../data/journey_route.json` (generator `../tools/journey_route.py`, unity-enu frame x=east, y=up, z=north). Scripts `Runtime/StationJourney.cs` + `Runtime/JourneyTrain.cs`. Not yet compiled/tested inside Unity (no editor on the build machine).

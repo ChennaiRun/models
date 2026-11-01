@@ -1071,21 +1071,21 @@
   },
   {
    "id": "rail_corridor",
-   "name": "Suburban rail corridor Guindy-Vandalur (2 tracks, OHE, 10 stations; Chrompet itself in roads/identity layers)",
+   "name": "Suburban rail corridor Guindy-Chengalpattu (2 tracks, OHE, 19 stations; detailed at Guindy, Pallavaram, Tambaram Sanatorium, Tambaram, Vandalur, Chengalpattu Junction)",
    "glb": "props/rail_corridor.glb",
    "type": "prop",
    "position_enu": [
-    1024.0,
-    156.0
+    -4613.0,
+    -10930.0
    ],
    "lat_lon": [
-    12.950101,
-    80.148839
+    12.850514,
+    80.096879
    ],
    "heading_deg": 0.0,
    "footprint_m": [
-    14013.0,
-    13234.0
+    25288.0,
+    35306.0
    ],
    "height_m": 7.0,
    "source": "osm",
@@ -1095,7 +1095,88 @@
     "chrompet_identity"
    ],
    "status": "sited",
-   "notes": "World-baked additive layer (2026-10-31). Catmull-Rom alignment through the OSM railway=station node chain (Overpass, ODbL; data/rail_corridor.osm). Detailed stations: Guindy, Pallavaram, Tambaram Sanatorium, Vandalur; minor platforms at Saint Thomas Mount, Palavanthangal, Meenambakkam, Tirusulam, Tambaram, Perungalattur. Rails/ballast/OHE clipped out of the area bbox where roads_v2.glb already carries the railway. See data/rail_corridor_meta.json."
+   "notes": "World-baked additive layer (2026-10-31). Catmull-Rom alignment through the OSM railway=station node chain (Overpass, ODbL; data/rail_corridor.osm). Detailed stations: Guindy, Pallavaram, Tambaram Sanatorium, Tambaram, Vandalur, Chengalpattu Junction; minor platforms at the 13 intermediate stations. Rails/ballast/OHE clipped out of the area bbox where roads_v2.glb already carries the railway. Cross-checked against the 2015 CAD Mapper DXF (data/reference/, ODbL; residuals 77 m-1.4 km southward, so the 2026 OSM alignment is kept). See data/rail_corridor_meta.json."
+  },
+  {
+   "id": "tambaram_ground_layer",
+   "name": "Tambaram extension ground layer (earth base + 14 lakes)",
+   "glb": "ground/tambaram_ground.glb",
+   "type": "area_layer",
+   "position_enu": [
+    0.0,
+    0.0
+   ],
+   "lat_lon": [
+    12.9487,
+    80.1394
+   ],
+   "heading_deg": 0.0,
+   "footprint_m": [
+    5900.0,
+    1950.0
+   ],
+   "height_m": 0.1,
+   "source": "osm",
+   "confidence": "approximate",
+   "connects_to": [
+    "rail_corridor"
+   ],
+   "status": "sited",
+   "notes": "World-baked additive layer south of 12.9353 N down to Tambaram (OSM extract data/tambaram_extension.osm, ODbL; generator tools/tambaram_extension.py; meta data/tambaram_extension_meta.json). Building heights generic (levels*3 or 7 m)."
+  },
+  {
+   "id": "tambaram_roads_layer",
+   "name": "Tambaram extension roads layer (GST Road, Tambaram Flyover, market streets)",
+   "glb": "roads/tambaram_roads.glb",
+   "type": "area_layer",
+   "position_enu": [
+    0.0,
+    0.0
+   ],
+   "lat_lon": [
+    12.9487,
+    80.1394
+   ],
+   "heading_deg": 0.0,
+   "footprint_m": [
+    5900.0,
+    1950.0
+   ],
+   "height_m": 6.5,
+   "source": "osm",
+   "confidence": "approximate",
+   "connects_to": [
+    "rail_corridor"
+   ],
+   "status": "sited",
+   "notes": "World-baked additive layer south of 12.9353 N down to Tambaram (OSM extract data/tambaram_extension.osm, ODbL; generator tools/tambaram_extension.py; meta data/tambaram_extension_meta.json). Building heights generic (levels*3 or 7 m)."
+  },
+  {
+   "id": "tambaram_buildings_layer",
+   "name": "Tambaram extension buildings layer (10,832 extruded footprints)",
+   "glb": "buildings/tambaram_buildings.glb",
+   "type": "area_layer",
+   "position_enu": [
+    0.0,
+    0.0
+   ],
+   "lat_lon": [
+    12.9487,
+    80.1394
+   ],
+   "heading_deg": 0.0,
+   "footprint_m": [
+    5900.0,
+    1950.0
+   ],
+   "height_m": 60.0,
+   "source": "osm",
+   "confidence": "approximate",
+   "connects_to": [
+    "rail_corridor"
+   ],
+   "status": "sited",
+   "notes": "World-baked additive layer south of 12.9353 N down to Tambaram (OSM extract data/tambaram_extension.osm, ODbL; generator tools/tambaram_extension.py; meta data/tambaram_extension_meta.json). Building heights generic (levels*3 or 7 m)."
   }
  ]
 }

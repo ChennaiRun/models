@@ -11,6 +11,7 @@ public static class ChromepetSync
 {
     public static string AreaRoot => Path.GetFullPath(Path.Combine(Application.dataPath, "..", ".."));
     static string PlayersRoot => Path.GetFullPath(Path.Combine(AreaRoot, "..", "players"));
+    static string VehiclesRoot => Path.GetFullPath(Path.Combine(AreaRoot, "..", "vehicles"));
     public const string Dst = "Assets/Models/Chrompet/";
     public static readonly string[] Glbs = {
         "ground/ground_v2.glb", "roads/roads_v2.glb", "buildings/campus_buildings.glb",
@@ -19,7 +20,8 @@ public static class ChromepetSync
         // World-positioned additive props sited 2026-10-21 (see data/placement_map.json).
         "props/open_air_theatre.glb", "props/mit_letters.glb", "props/golden_statue_garden.glb",
         "props/pergola.glb", "props/gazebo.glb", "props/connector_paths.glb",
-        "props/chrompet_station_details.glb", "props/rail_corridor.glb" };
+        "props/chrompet_station_details.glb", "props/rail_corridor.glb",
+        "ground/tambaram_ground.glb", "roads/tambaram_roads.glb", "buildings/tambaram_buildings.glb" };
 
     [MenuItem("Chrompet/Sync Area Assets")]
     public static void Sync()
@@ -38,6 +40,10 @@ public static class ChromepetSync
         Copy("data/production_frontage_meta.json", Dst + "production_frontage_meta.json");
         Copy("data/connector_paths_meta.json", Dst + "connector_paths_meta.json");
         Copy("data/placement_map.json", Dst + "placement_map.json");
+        Copy("data/journey_route.json", Dst + "journey_route.json");
+        // Shared Chennai EMU for the scripted station journey (JourneyTrain).
+        CopyVehicle(Path.Combine("chennai_emu", "chennai_suburban_emu.glb"),
+            "Assets/Models/Vehicles/chennai_suburban_emu.glb");
         var vikram = Path.Combine(PlayersRoot, "Vikram");
         if (Directory.Exists(vikram))
             foreach (var f in Directory.GetFiles(vikram, "*.fbx"))
@@ -73,6 +79,7 @@ public static class ChromepetSync
 
     static void Copy(string rel, string dst) => CopyFrom(AreaRoot, rel, dst);
     static void CopyPlayer(string rel, string dst) => CopyFrom(PlayersRoot, rel, dst);
+    static void CopyVehicle(string rel, string dst) => CopyFrom(VehiclesRoot, rel, dst);
 
     static void CopyFrom(string root, string rel, string dst)
     {
